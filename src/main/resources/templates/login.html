@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>注册登录页面</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>登录页面</title>
+    <link type="text/css" rel="stylesheet" href="../static/css/style.css">
 </head>
-
 <body>
 <div class="content">
     <!--    登录    -->
     <div class="form sign-in">
-        <form action="/login" method="post">
+        <form id="login-form" action="#" method="post" onsubmit="return false">
             <h2>欢迎回来</h2>
             <label>
                 <span>用户名</span>
@@ -22,7 +20,7 @@
                 <input class="input1" type="password" name="userPass"/>
             </label>
             <p class="forgot-pass"><a href="javascript:">忘记密码？</a></p>
-            <button type="submit" class="submit">登 录</button>
+            <button type="button" class="submit" onclick="login()">登 录</button>
         </form>
     </div>
     <div class="sub-cont">
@@ -69,7 +67,47 @@
         </div>
     </div>
 </div>
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/script.js"></script>
+<script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../static/js/script.js"></script>
+<script type="text/javascript">
+
+    function register() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/register",
+            data: $('#register-form').serialize(),
+            success: function (result) {
+                console.log(result);
+                if (result.status == 200) {
+                    alert(result.msg);
+                    $(':input', '#register-form')
+                        .not(':button, :submit, :reset, :hidden')
+                        .val('')
+                        .removeAttr('checked')
+                        .removeAttr('selected');
+                } else {
+                    alert("注册失败！")
+                }
+            }
+        });
+    }
+
+    function login() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/login",
+            data: $('#login-form').serialize(),
+            success: function (result) {
+                if (result.status == 200) {
+                    window.open('/index', '_self');
+                } else {
+                    alert("登录失败！");
+                }
+            }
+        })
+    }
+</script>
 </body>
 </html>

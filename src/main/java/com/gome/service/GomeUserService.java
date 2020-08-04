@@ -13,5 +13,5 @@ public interface GomeUserService {
     // 注册账户
     ResultUtil insert(GomeUser gomeUser);
     // 登录
-    ResultUtil login(GomeUser gomeUser);
+    GomeUser login(String username, String password);
 }

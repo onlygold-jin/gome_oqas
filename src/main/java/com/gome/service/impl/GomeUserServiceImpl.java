@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.gome.enums.ResultEnums.LOGIN_ERROR;
-import static com.gome.enums.ResultEnums.REGISTER_ERROR;
+import static com.gome.enums.ResultEnums.*;
 
 /**
  * @Description:
@@ -34,18 +32,17 @@ public class GomeUserServiceImpl implements GomeUserService {
     }
 
     @Override
-    public ResultUtil login(GomeUser gomeUser) {
+    public GomeUser login(String username, String password) {
         GomeUserExample example = new GomeUserExample();
         GomeUserExample.Criteria criteria = example.createCriteria();
-        criteria.andUserNameEqualTo(gomeUser.getUserName());
-        criteria.andUserPassEqualTo(gomeUser.getUserPass());
+        criteria.andUserNameEqualTo(username);
+        criteria.andUserPassEqualTo(password);
         List<GomeUser> list = mapper.selectByExample(example);
         if (list.size() != 0) {
-            for (GomeUser user : list) {
-                System.out.println(user.getUserName());
-                return ResultUtil.ok(user.getUserName());
+            for (GomeUser gomeUser : list) {
+                return gomeUser;
             }
         }
-        return ResultUtil.build(LOGIN_ERROR.getStatus(), LOGIN_ERROR.getMsg());
+        return null;
     }
 }
