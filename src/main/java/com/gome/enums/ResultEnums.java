@@ -1,7 +1,7 @@
 package com.gome.enums;
 
 /**
- * @Description:
+ * @Description: 统一返回的 错误号，错误信息
  * @Author: WangJinYue
  * @Date: 2020/8/3 20:11
  * @Modified By:

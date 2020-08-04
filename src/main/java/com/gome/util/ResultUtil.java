@@ -1,7 +1,7 @@
 package com.gome.util;
 
 /**
- * @Description:
+ * @Description: 自定义返回json
  * @Author: WangJinYue
  * @Date: 2020/8/3 19:59
  * @Modified By:

@@ -101,6 +101,8 @@
             data: $('#login-form').serialize(),
             success: function (result) {
                 if (result.status == 200) {
+                    //  /index url
+                    //  _self 当前页面刷新
                     window.open('/index', '_self');
                 } else {
                     alert("登录失败！");

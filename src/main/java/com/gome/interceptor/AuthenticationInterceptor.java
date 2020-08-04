@@ -11,13 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * @Description:
+ * @Description: 拦截器
  * @Author: WangJinYue
  * @Date: 2020/8/4 16:35
  * @Modified By:
  */
 public class AuthenticationInterceptor implements HandlerInterceptor {
-    // 重新三个方法
 
     /**
      * 执行controller方法之前

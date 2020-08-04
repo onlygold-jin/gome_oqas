@@ -15,7 +15,7 @@ import static com.gome.enums.ResultEnums.*;
 import javax.servlet.http.HttpSession;
 
 /**
- * @Description:
+ * @Description: 处理登录和注册
  * @Author: WangJinYue
  * @Date: 2020/8/3 15:33
  * @Modified By:
@@ -25,11 +25,21 @@ public class LoginController {
     @Autowired
     private GomeUserService service;
 
+    /** 访问登录页面
+     * @return
+     */
     @GetMapping({"/", "/login-ui"})
     public String loginUI() {
-        return "login";
+        return LOGIN;
     }
 
+    /**
+     * 处理登录
+     * @param userName
+     * @param userPass
+     * @param session 登录成功 像session中存放用户
+     * @return
+     */
     @PostMapping("/login")
     @ResponseBody
     public ResultUtil login(String userName, String userPass, HttpSession session) {
@@ -51,6 +61,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * 处理注册
+     * @param gomeUser
+     * @return
+     */
     @PostMapping("/register")
     @ResponseBody
     public ResultUtil register(GomeUser gomeUser) {
