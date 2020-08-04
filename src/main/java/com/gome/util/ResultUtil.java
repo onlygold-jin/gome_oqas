@@ -32,7 +32,7 @@ public class ResultUtil {
 
     public ResultUtil(Object data) {
         this.status = 200;
-        this.msg = "OK";
+        this.msg = "成功";
         this.data = data;
     }
 

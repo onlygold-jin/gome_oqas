@@ -23,9 +23,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
     @Autowired
-    private GomeUserService service;
+    private GomeUserService gomeUserService;
 
-    /** 访问登录页面
+    /**
+     * 访问登录页面
+     *
      * @return
      */
     @GetMapping({"/", "/login-ui"})
@@ -35,9 +37,10 @@ public class LoginController {
 
     /**
      * 处理登录
+     *
      * @param userName
      * @param userPass
-     * @param session 登录成功 像session中存放用户
+     * @param session  登录成功 像session中存放用户
      * @return
      */
     @PostMapping("/login")
@@ -49,7 +52,7 @@ public class LoginController {
             return ResultUtil.build(LOGIN_NULL.getStatus(), LOGIN_NULL.getMsg());
         }
         //2. 调用service执行登录.
-        GomeUser gomeUser = service.login(userName, userPass);
+        GomeUser gomeUser = gomeUserService.login(userName, userPass);
         //3. 根据service返回结果判断登录是否成功.
         if (gomeUser != null) {
             //4. 如果成功,讲用户的信息放到session域中.
@@ -62,13 +65,14 @@ public class LoginController {
     }
 
     /**
-     * 处理注册
+     * 修改密码
+     *
      * @param gomeUser
      * @return
      */
-    @PostMapping("/register")
+    @PostMapping("/update-user")
     @ResponseBody
-    public ResultUtil register(GomeUser gomeUser) {
-        return service.insert(gomeUser);
+    public ResultUtil updateUser(GomeUser gomeUser) {
+        return gomeUserService.updateUser(gomeUser);
     }
 }

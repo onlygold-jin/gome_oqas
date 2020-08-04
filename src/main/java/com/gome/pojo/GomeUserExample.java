@@ -373,6 +373,76 @@ public class GomeUserExample {
             addCriterion("USER_STATU not between", value1, value2, "userStatu");
             return (Criteria) this;
         }
+
+        public Criteria andUserPersonsNameIsNull() {
+            addCriterion("USER_PERSONS_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameIsNotNull() {
+            addCriterion("USER_PERSONS_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameEqualTo(String value) {
+            addCriterion("USER_PERSONS_NAME =", value, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameNotEqualTo(String value) {
+            addCriterion("USER_PERSONS_NAME <>", value, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameGreaterThan(String value) {
+            addCriterion("USER_PERSONS_NAME >", value, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameGreaterThanOrEqualTo(String value) {
+            addCriterion("USER_PERSONS_NAME >=", value, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameLessThan(String value) {
+            addCriterion("USER_PERSONS_NAME <", value, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameLessThanOrEqualTo(String value) {
+            addCriterion("USER_PERSONS_NAME <=", value, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameLike(String value) {
+            addCriterion("USER_PERSONS_NAME like", value, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameNotLike(String value) {
+            addCriterion("USER_PERSONS_NAME not like", value, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameIn(List<String> values) {
+            addCriterion("USER_PERSONS_NAME in", values, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameNotIn(List<String> values) {
+            addCriterion("USER_PERSONS_NAME not in", values, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameBetween(String value1, String value2) {
+            addCriterion("USER_PERSONS_NAME between", value1, value2, "userPersonsName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPersonsNameNotBetween(String value1, String value2) {
+            addCriterion("USER_PERSONS_NAME not between", value1, value2, "userPersonsName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

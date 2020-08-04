@@ -26,7 +26,7 @@ public class LoginConfig implements WebMvcConfigurer {
                 "/static/**",
                 "/login-ui",
                 "/login",
-                "/register"
+                "/update-user"
         );
 
     }

@@ -10,8 +10,8 @@ import com.gome.util.ResultUtil;
  * @Modified By:
  */
 public interface GomeUserService {
-    // 注册账户
-    ResultUtil insert(GomeUser gomeUser);
+    // 找回密码
+    ResultUtil updateUser(GomeUser gomeUser);
     // 登录
     GomeUser login(String username, String password);
 }

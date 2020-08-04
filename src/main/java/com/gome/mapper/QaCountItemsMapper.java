@@ -3,8 +3,11 @@ package com.gome.mapper;
 import com.gome.pojo.QaCountItems;
 import com.gome.pojo.QaCountItemsExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface QaCountItemsMapper {
     long countByExample(QaCountItemsExample example);
 

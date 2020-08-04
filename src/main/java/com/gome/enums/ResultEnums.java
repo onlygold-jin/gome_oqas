@@ -10,6 +10,7 @@ public enum ResultEnums {
     REGISTER_ERROR(1, "注册失败"),
     LOGIN_ERROR(3, "用户名或密码错误!"),
     LOGIN_NULL(2, "用户名和密码为必填项,岂能不填!"),
+    UPDATE_PASS_ERROE(4,"此用户不存在！"),
     ;
 
     private Integer status;

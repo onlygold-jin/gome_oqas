@@ -9,6 +9,8 @@ public class GomeUser {
 
     private String userStatu;
 
+    private String userPersonsName;
+
     public Integer getUserId() {
         return userId;
     }
@@ -39,5 +41,13 @@ public class GomeUser {
 
     public void setUserStatu(String userStatu) {
         this.userStatu = userStatu == null ? null : userStatu.trim();
+    }
+
+    public String getUserPersonsName() {
+        return userPersonsName;
+    }
+
+    public void setUserPersonsName(String userPersonsName) {
+        this.userPersonsName = userPersonsName == null ? null : userPersonsName.trim();
     }
 }

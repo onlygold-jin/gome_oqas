@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 import static com.gome.enums.ResultEnums.*;
 
 /**
@@ -20,15 +21,23 @@ import static com.gome.enums.ResultEnums.*;
 @Service
 public class GomeUserServiceImpl implements GomeUserService {
     @Autowired
-    private GomeUserMapper mapper;
+    private GomeUserMapper gomeUserMapper;
 
     @Override
-    public ResultUtil insert(GomeUser gomeUser) {
-        int i = mapper.insertSelective(gomeUser);
-        if (i != 1) {
-            return ResultUtil.build(REGISTER_ERROR.getStatus(), REGISTER_ERROR.getMsg());
+    public ResultUtil updateUser(GomeUser gomeUser) {
+        GomeUserExample example = new GomeUserExample();
+        GomeUserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserNameEqualTo(gomeUser.getUserName());
+        criteria.andUserPersonsNameEqualTo(gomeUser.getUserPersonsName());
+        List<GomeUser> list = gomeUserMapper.selectByExample(example);
+        if (list.size() != 0) {
+            for (GomeUser user : list) {
+                user.setUserPass(gomeUser.getUserPass());
+                gomeUserMapper.updateByPrimaryKey(user);
+                return ResultUtil.ok();
+            }
         }
-        return ResultUtil.ok();
+        return ResultUtil.build(UPDATE_PASS_ERROE.getStatus(), UPDATE_PASS_ERROE.getMsg());
     }
 
     @Override
@@ -37,7 +46,7 @@ public class GomeUserServiceImpl implements GomeUserService {
         GomeUserExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(username);
         criteria.andUserPassEqualTo(password);
-        List<GomeUser> list = mapper.selectByExample(example);
+        List<GomeUser> list = gomeUserMapper.selectByExample(example);
         if (list.size() != 0) {
             for (GomeUser gomeUser : list) {
                 return gomeUser;
