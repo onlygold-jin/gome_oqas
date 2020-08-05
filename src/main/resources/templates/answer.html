@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/layui.css">
+</head>
+<body>
+<div th:each="r:${list}">
+    <form action="#" method="post">
+        <div>
+        <span style="color: rgb(245, 108, 108);">
+            <span>*</span>
+        </span>
+            <span th:text="${r.questionTitle}"></span>
+        </div>
+        <!--  单选按钮  -->
+        <div th:if="${r.questionType=='1'}">
+            <label th:each="i:${r.item}" tabindex="0" style="margin: 5px;">
+                <input type="radio" th:name="${i.questionId}" th:value="${i.showAnswer}">
+                <span th:text="${i.showAnswer}"></span>
+            </label>
+        </div>
+        <!--  多选按钮  -->
+        <div th:if="${r.questionType=='2'}">
+            <label th:each="i:${r.item}" class="el-checkbox" style="margin: 5px;">
+                <input type="checkbox" th:name="${i.questionId}" th:value="${i.showAnswer}">
+                <span th:text="${i.showAnswer}"></span>
+            </label>
+        </div>
+        <!--  简答题  -->
+        <div th:if="${r.questionType=='3'}">
+            <textarea></textarea>
+        </div>
+    </form>
+</div>
+</body>
+<script src="../static/js/jquery-3.3.1.min.js"></script>
+<script src="../static/js/layui.js"></script>
+</html>

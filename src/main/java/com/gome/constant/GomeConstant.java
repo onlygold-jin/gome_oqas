@@ -19,4 +19,8 @@ public interface GomeConstant {
      * 首页
      */
     String INDEX = "index";
+    /**
+     * 答题页
+     */
+    String ANSWER = "answer";
 }
