@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.events.Event;
 
 import static com.gome.constant.GomeConstant.*;
 import static com.gome.enums.ResultEnums.*;
@@ -72,7 +73,16 @@ public class LoginController {
      */
     @PostMapping("/update-user")
     @ResponseBody
-    public ResultUtil updateUser(GomeUser gomeUser) {
+    public ResultUtil updateUser(GomeUser gomeUser, String confirmPass) {
+        if (StringUtils.isEmpty(gomeUser.getUserName()) || StringUtils.isEmpty(gomeUser.getUserPersonsName())) {
+            return ResultUtil.build(USER_NAME_ERROR.getStatus(), USER_NAME_ERROR.getMsg());
+        }
+        if (StringUtils.isEmpty(gomeUser.getUserPass())){
+            return ResultUtil.build(PASS_ERROR.getStatus(), PASS_ERROR.getMsg());
+        }
+        if(!gomeUser.getUserPass().equals(confirmPass)){
+            return ResultUtil.build(UPDATE_PASS_NULL.getStatus(),UPDATE_PASS_NULL.getMsg());
+        }
         return gomeUserService.updateUser(gomeUser);
     }
 }

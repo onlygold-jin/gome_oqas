@@ -7,10 +7,13 @@ package com.gome.enums;
  * @Modified By:
  */
 public enum ResultEnums {
-    REGISTER_ERROR(1, "注册失败"),
+    USER_NAME_ERROR(1, "用户名和本人姓名为必填项，岂能不填！"),
+    PASS_ERROR(7, "新密码为必填项，岂能不填！"),
     LOGIN_ERROR(3, "用户名或密码错误!"),
     LOGIN_NULL(2, "用户名和密码为必填项,岂能不填!"),
-    UPDATE_PASS_ERROE(4,"此用户不存在！"),
+    UPDATE_USER_ERROE(4,"此用户不存在！"),
+    UPDATE_PASS_ERROE(5,"本人姓名填写有误，请重新填写！"),
+    UPDATE_PASS_NULL(6,"新密码和确认密码不一致！"),
     ;
 
     private Integer status;

@@ -28,6 +28,10 @@ public class GomeUserServiceImpl implements GomeUserService {
         GomeUserExample example = new GomeUserExample();
         GomeUserExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(gomeUser.getUserName());
+        List<GomeUser> list1 = gomeUserMapper.selectByExample(example);
+        if (list1.size() == 0) {
+            return ResultUtil.build(UPDATE_USER_ERROE.getStatus(), UPDATE_USER_ERROE.getMsg());
+        }
         criteria.andUserPersonsNameEqualTo(gomeUser.getUserPersonsName());
         List<GomeUser> list = gomeUserMapper.selectByExample(example);
         if (list.size() != 0) {
