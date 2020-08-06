@@ -3,38 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../static/css/layui.css">
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <style>
+        body {
+            font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+            background: #F8F8F8;
+
+        }
+
+        .layui-container {
+            width: 76%;
+        }
+
+        .layui-header {
+            color: #606266;
+            padding: 0 20px 20px;
+            border-bottom: 3px solid #409eff;
+            line-height: 22px;
+            text-align: left;
+        }
+
+        h1 {
+            padding-top: 30px;
+            text-align: center;
+        }
+
+
+        .layui-row {
+            text-align: left;
+            width: 100%;
+            margin: 10px 0;
+            background: white;
+        }
+
+        .el-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #ebeef5;
+            box-sizing: border-box;
+            font-size: 18px;
+        }
+
+        .el-body {
+            padding: 20px 20px;
+            color: #606266;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 30px 0;
+            text-align: center;
+            background: white;
+        }
+
+    </style>
 </head>
 <body>
-<div th:each="r:${list}">
-    <form action="#" method="post">
-        <div>
-        <span style="color: rgb(245, 108, 108);">
-            <span>*</span>
-        </span>
-            <span th:text="${r.questionTitle}"></span>
-        </div>
-        <!--  单选按钮  -->
-        <div th:if="${r.questionType=='1'}">
-            <label th:each="i:${r.item}" tabindex="0" style="margin: 5px;">
-                <input type="radio" th:name="${i.questionId}" th:value="${i.showAnswer}">
-                <span th:text="${i.showAnswer}"></span>
-            </label>
-        </div>
-        <!--  多选按钮  -->
-        <div th:if="${r.questionType=='2'}">
-            <label th:each="i:${r.item}" class="el-checkbox" style="margin: 5px;">
-                <input type="checkbox" th:name="${i.questionId}" th:value="${i.showAnswer}">
-                <span th:text="${i.showAnswer}"></span>
-            </label>
-        </div>
-        <!--  简答题  -->
-        <div th:if="${r.questionType=='3'}">
-            <textarea></textarea>
-        </div>
-    </form>
+<div class="layui-container">
+    <div class="layui-header">
+        <h1>第五届美财之星全国总决赛</h1>
+    </div>
+    <div>
+        <form class="layui-form">
+            <div th:each="r,i:${list}" class="layui-row">
+                <div class="el-header">
+                    <span th:text="${i.index+1+'、'+r.questionTitle}"></span>
+                </div>
+                <!--  单选按钮  -->
+                <div th:if="${r.questionType=='1'}" class="el-body">
+                    <label th:each="it:${r.item}" tabindex="0" style="margin: 5px;">
+                        <!--  题号  -->
+                        <input type="hidden" name="questionId" th:value="${r.id}">
+                        <!--  选择的答案  -->
+                        <input type="radio" name="answer" th:value="${it.showAnswer}">
+                        <span th:text="${it.showAnswer}"></span>
+                    </label>
+                </div>
+                <!--  多选按钮  -->
+                <div th:if="${r.questionType=='2'}" class="el-body">
+                    <label th:each="it:${r.item}" class="el-checkbox" style="margin: 10px;">
+                        <!--  题号  -->
+                        <input type="hidden" name="questionId" th:value="${r.id}">
+                        <!--  选择的答案  -->
+                        <input type="checkbox" name="answer" th:value="${it.showAnswer}">
+                        <span th:text="${it.showAnswer}"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="btn">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 <script src="../static/js/jquery-3.3.1.min.js"></script>
-<script src="../static/js/layui.js"></script>
+<script src="../static/layui/layui.js"></script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        //各种基于事件的操作，下面会有进一步介绍
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            $.ajax({
+                url: "../Contestant/Employee.do",
+                async: false,
+                type: "POST",
+                dataType: "text",
+                data: data.field,
+                success: function (result) {
+
+                }
+            })
+            return false;
+        });
+
+    });
+    ;
+</script>
 </html>

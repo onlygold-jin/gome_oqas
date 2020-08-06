@@ -8,10 +8,14 @@ import com.gome.pojo.QaQuestionList;
 import com.gome.service.QaCountItemsService;
 import com.gome.service.QaQuestionItemsService;
 import com.gome.service.QaQuestionListService;
+import com.gome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -44,7 +48,7 @@ public class AnswerController {
         Integer integer = countItemsService.selectThisNumber(gomeUser.getUserName());
         if (integer != null) {
             thisNumber = integer;
-        }else{
+        } else {
             // 本套题已经被当前登陆人选中
             boolean b = countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName());
             if (!b) {
@@ -68,5 +72,11 @@ public class AnswerController {
         }
         model.addAttribute("list", list);
         return ANSWER;
+    }
+
+    @PostMapping("/answer")
+    @ResponseBody
+    public ResultUtil ajax() {
+        return null;
     }
 }
