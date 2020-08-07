@@ -76,7 +76,9 @@ public class AnswerController {
 
     @PostMapping("/answer")
     @ResponseBody
-    public ResultUtil ajax() {
+    public ResultUtil ajax(String questionId, String answer) {
+        System.out.println(questionId);
+        System.out.println(answer);
         return null;
     }
 }

@@ -18,7 +18,7 @@
         .layui-header {
             color: #606266;
             padding: 0 20px 20px;
-            border-bottom: 3px solid #409eff;
+            border-bottom: 3px solid #009688;
             line-height: 22px;
             text-align: left;
         }
@@ -40,13 +40,13 @@
             padding: 18px 20px;
             border-bottom: 1px solid #ebeef5;
             box-sizing: border-box;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .el-body {
             padding: 20px 20px;
             color: #606266;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .btn {
@@ -68,29 +68,27 @@
                 <div class="el-header">
                     <span th:text="${i.index+1+'、'+r.questionTitle}"></span>
                 </div>
+                <!--  题号  -->
+                <input type="hidden" name="questionId[]" th:value="${r.id}">
                 <!--  单选按钮  -->
                 <div th:if="${r.questionType=='1'}" class="el-body">
-                    <label th:each="it:${r.item}" tabindex="0" style="margin: 5px;">
-                        <!--  题号  -->
-                        <input type="hidden" name="questionId" th:value="${r.id}">
+                    <label th:each="it:${r.item}">
                         <!--  选择的答案  -->
-                        <input type="radio" name="answer" th:value="${it.showAnswer}">
-                        <span th:text="${it.showAnswer}"></span>
+                        <input type="radio" th:name="${'showAnswer'+r.id+'[]'}" th:value="${it.showAnswer}"
+                               th:title="${it.showAnswer}">
                     </label>
                 </div>
                 <!--  多选按钮  -->
                 <div th:if="${r.questionType=='2'}" class="el-body">
-                    <label th:each="it:${r.item}" class="el-checkbox" style="margin: 10px;">
-                        <!--  题号  -->
-                        <input type="hidden" name="questionId" th:value="${r.id}">
+                    <label th:each="it:${r.item}">
                         <!--  选择的答案  -->
-                        <input type="checkbox" name="answer" th:value="${it.showAnswer}">
-                        <span th:text="${it.showAnswer}"></span>
+                        <input type="checkbox" th:name="${'showAnswer'+r.id+'[]'}" lay-skin="primary"
+                               th:value="${it.showAnswer}" th:title="${it.showAnswer}">
                     </label>
                 </div>
             </div>
             <div class="btn">
-                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交</button>
+                <button class="layui-btn layui-btn-green" lay-submit lay-filter="formDemo">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </form>
@@ -107,13 +105,13 @@
         //监听提交
         form.on('submit(formDemo)', function (data) {
             $.ajax({
-                url: "../Contestant/Employee.do",
+                url: "/answer",
                 async: false,
                 type: "POST",
                 dataType: "text",
                 data: data.field,
                 success: function (result) {
-
+                    console.log(data)
                 }
             })
             return false;
