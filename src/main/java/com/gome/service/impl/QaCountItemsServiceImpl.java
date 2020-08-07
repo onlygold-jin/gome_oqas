@@ -4,9 +4,11 @@ import com.gome.mapper.QaCountItemsMapper;
 import com.gome.pojo.QaCountItems;
 import com.gome.pojo.QaCountItemsExample;
 import com.gome.service.QaCountItemsService;
+import com.gome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,7 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
 
     @Override
 //    @Scheduled(cron = "0/10 * * * * ?")
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public List<QaCountItems> getCountList() {
         System.err.println(new Date());
         QaCountItemsExample example = new QaCountItemsExample();
@@ -41,6 +44,7 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public boolean updateThisNumber(Integer thisNumber, String userName) {
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
@@ -51,7 +55,7 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
                 countItems.setRespondent(userName);
                 int i = qaCountItemsMapper.updateByPrimaryKey(countItems);
                 if (i == 1) {
-                    System.out.println(i+"修改成功");
+                    System.out.println(i + "修改成功");
                     return true;
                 }
             }
@@ -61,20 +65,47 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
 
     /**
      * 查询当前用户是否有选中的题
+     *
      * @param userName
      * @return 返回选中的题号
      */
     @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public Integer selectThisNumber(String userName) {
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
         criteria.andRespondentEqualTo(userName);
         List<QaCountItems> list = qaCountItemsMapper.selectByExample(example);
-        if (list.size()!=0){
+        if (list.size() != 0) {
             for (QaCountItems qaCountItems : list) {
                 return qaCountItems.getThisNumber();
             }
         }
         return null;
+    }
+
+    /**
+     * 修改本套题的状态
+     *
+     * @param userName
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public Boolean updateIsEnable(String userName) {
+        QaCountItemsExample example = new QaCountItemsExample();
+        QaCountItemsExample.Criteria criteria = example.createCriteria();
+        criteria.andRespondentEqualTo(userName);
+        List<QaCountItems> list = qaCountItemsMapper.selectByExample(example);
+        if (list.size() != 0) {
+            for (QaCountItems qaCountItems : list) {
+                qaCountItems.setIsEnable("是");
+                int i = qaCountItemsMapper.updateByPrimaryKey(qaCountItems);
+                if (i != 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

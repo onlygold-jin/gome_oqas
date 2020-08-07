@@ -6,6 +6,7 @@ import com.gome.pojo.QaQuestionItemsExample;
 import com.gome.service.QaQuestionItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class QaQuestionItemsServiceImpl implements QaQuestionItemsService {
     private QaQuestionItemsMapper questionItemsMapper;
 
     @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public List<QaQuestionItems> getQuestionItemsList(Integer questionId) {
         QaQuestionItemsExample example = new QaQuestionItemsExample();
         QaQuestionItemsExample.Criteria criteria = example.createCriteria();

@@ -44,7 +44,7 @@
         }
 
         .el-body {
-            padding: 20px 20px;
+            padding: 20px 50px;
             color: #606266;
             font-size: 14px;
         }
@@ -69,22 +69,22 @@
                     <span th:text="${i.index+1+'、'+r.questionTitle}"></span>
                 </div>
                 <!--  题号  -->
-                <input type="hidden" name="questionId[]" th:value="${r.id}">
+                <input type="hidden" name="questionId" th:value="${r.id}">
                 <!--  单选按钮  -->
                 <div th:if="${r.questionType=='1'}" class="el-body">
-                    <label th:each="it:${r.item}">
+                    <div th:each="it:${r.item}">
                         <!--  选择的答案  -->
-                        <input type="radio" th:name="${'showAnswer'+r.id+'[]'}" th:value="${it.showAnswer}"
+                        <input type="radio" th:name="${'radio'+r.id}" th:value="${it.showAnswer}"
                                th:title="${it.showAnswer}">
-                    </label>
+                    </div>
                 </div>
                 <!--  多选按钮  -->
                 <div th:if="${r.questionType=='2'}" class="el-body">
-                    <label th:each="it:${r.item}">
+                    <div th:each="it:${r.item}">
                         <!--  选择的答案  -->
-                        <input type="checkbox" th:name="${'showAnswer'+r.id+'[]'}" lay-skin="primary"
-                               th:value="${it.showAnswer}" th:title="${it.showAnswer}">
-                    </label>
+                        <input type="checkbox" th:name="${'checkbox'+r.id}"
+                               lay-skin="primary" th:value="${it.showAnswer}" th:title="${it.showAnswer}">
+                    </div>
                 </div>
             </div>
             <div class="btn">
@@ -99,25 +99,22 @@
 <script src="../static/layui/layui.js"></script>
 <script>
     layui.use('form', function () {
-        var form = layui.form;
-        //各种基于事件的操作，下面会有进一步介绍
+        var form = layui.form,
+            $ = layui.$;
 
         //监听提交
         form.on('submit(formDemo)', function (data) {
-            $.ajax({
-                url: "/answer",
-                async: false,
-                type: "POST",
-                dataType: "text",
-                data: data.field,
-                success: function (result) {
-                    console.log(data)
+            var fields = $(data.form).serialize();
+            $.post("/answer", fields, function (result) {
+                if (result.status == 200) {
+                    // 
+                    alert(result.msg);
+                } else {
+                    alert(result.msg);
                 }
-            })
-            return false;
+            }, "json");
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
-
     });
-    ;
 </script>
 </html>

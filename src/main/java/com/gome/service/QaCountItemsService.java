@@ -1,6 +1,7 @@
 package com.gome.service;
 
 import com.gome.pojo.QaCountItems;
+import com.gome.util.ResultUtil;
 
 import java.util.List;
 
@@ -19,4 +20,7 @@ public interface QaCountItemsService {
 
     // 查看当前用户是否有选中的题
     Integer selectThisNumber(String userName);
+
+    // 修改题的状态
+    Boolean updateIsEnable(String userName);
 }

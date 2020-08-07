@@ -7,6 +7,7 @@ import com.gome.service.GomeUserService;
 import com.gome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,13 +25,14 @@ public class GomeUserServiceImpl implements GomeUserService {
     private GomeUserMapper gomeUserMapper;
 
     @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public ResultUtil updateUser(GomeUser gomeUser) {
         GomeUserExample example = new GomeUserExample();
         GomeUserExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(gomeUser.getUserName());
         List<GomeUser> list1 = gomeUserMapper.selectByExample(example);
         if (list1.size() == 0) {
-            return ResultUtil.build(UPDATE_USER_ERROE.getStatus(), UPDATE_USER_ERROE.getMsg());
+            return ResultUtil.build(UPDATE_USER_ERROR.getStatus(), UPDATE_USER_ERROR.getMsg());
         }
         criteria.andUserPersonsNameEqualTo(gomeUser.getUserPersonsName());
         List<GomeUser> list = gomeUserMapper.selectByExample(example);
@@ -41,10 +43,11 @@ public class GomeUserServiceImpl implements GomeUserService {
                 return ResultUtil.ok();
             }
         }
-        return ResultUtil.build(UPDATE_PASS_ERROE.getStatus(), UPDATE_PASS_ERROE.getMsg());
+        return ResultUtil.build(UPDATE_PASS_ERROR.getStatus(), UPDATE_PASS_ERROR.getMsg());
     }
 
     @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
     public GomeUser login(String username, String password) {
         GomeUserExample example = new GomeUserExample();
         GomeUserExample.Criteria criteria = example.createCriteria();

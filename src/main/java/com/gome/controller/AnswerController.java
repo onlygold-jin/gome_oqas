@@ -5,25 +5,24 @@ import com.gome.dto.QuestionDTO;
 import com.gome.pojo.GomeUser;
 import com.gome.pojo.QaQuestionItems;
 import com.gome.pojo.QaQuestionList;
+import com.gome.pojo.QaQuestionReply;
 import com.gome.service.QaCountItemsService;
 import com.gome.service.QaQuestionItemsService;
 import com.gome.service.QaQuestionListService;
+import com.gome.service.QaQuestionReplyService;
 import com.gome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.gome.constant.GomeConstant.*;
+import static com.gome.enums.ResultEnums.*;
 
 /**
  * @Description:
@@ -39,6 +38,8 @@ public class AnswerController {
     private QaQuestionListService questionListService;
     @Autowired
     private QaQuestionItemsService questionItemsService;
+    @Autowired
+    private QaQuestionReplyService questionReplyService;
 
     @GetMapping("/answer")
     public String answer(Integer thisNumber, HttpServletRequest request, Model model) {
@@ -55,7 +56,7 @@ public class AnswerController {
                 return INDEX;
             }
         }
-        // 2.获取本套题所有的题
+        // 2.获取本套题所有的选择题
         List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber);
         List<QuestionDTO> list = new ArrayList<>();
         for (QaQuestionList question : questionList) {
@@ -76,9 +77,52 @@ public class AnswerController {
 
     @PostMapping("/answer")
     @ResponseBody
-    public ResultUtil ajax(String questionId, String answer) {
-        System.out.println(questionId);
-        System.out.println(answer);
-        return null;
+    public ResultUtil ajax(HttpServletRequest request) {
+        // 1. 获取当前用户
+        HttpSession session = request.getSession();
+        GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
+        // 2. 拿取form表单选择的答案
+        Map<String, String[]> map = request.getParameterMap();
+        String[] questionIds = map.get("questionId");
+        // 4.将form表单传入的值放到集合中
+        List<QaQuestionReply> list = new ArrayList<>();
+        for (String questionId : questionIds) {
+            QaQuestionReply questionReply = new QaQuestionReply();
+            // 3.判断是否是 复选框
+            boolean b = questionListService.ifCheckbox(Integer.valueOf(questionId));
+            if (b) {
+                // 3.1 是复选框 查询复选框的内容 并用 ；分割
+                String[] strings = map.get("checkbox" + questionId);
+                String checkboxs = "";
+                if (strings.length != 0) {
+                    for (String string : strings) {
+                        checkboxs = checkboxs + string + ";";
+                    }
+                }
+                System.out.println("checkbox" + questionId + "=" + checkboxs);
+                questionReply.setRespoondent(gomeUser.getUserName());
+                questionReply.setQuestionId(Integer.valueOf(questionId));
+                questionReply.setAnswer(checkboxs);
+                list.add(questionReply);
+            } else {
+                // 3.1 是单选框 查询单选框
+                String radio = request.getParameter("radio" + questionId);
+                System.out.println("radio" + questionId + "=" + radio);
+                questionReply.setRespoondent(gomeUser.getUserName());
+                questionReply.setQuestionId(Integer.valueOf(questionId));
+                questionReply.setAnswer(radio);
+                list.add(questionReply);
+            }
+        }
+        // 5.存入数据库
+        ResultUtil resultUtil = questionReplyService.insertQaQuestionReply(list);
+        // 6. 如果答题成功 ，将本套题的状态改为是
+        if (resultUtil.getStatus() == 200) {
+            Boolean b = countItemsService.updateIsEnable(gomeUser.getUserName());
+            if (!b) {
+                return ResultUtil.build(ANSWER_UPDATE_USERNAME_ERROR.getStatus(), ANSWER_UPDATE_USERNAME_ERROR.getMsg());
+            }
+        }
+        return resultUtil;
     }
 }
