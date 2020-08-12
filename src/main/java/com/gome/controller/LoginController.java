@@ -56,7 +56,7 @@ public class LoginController {
         GomeUser gomeUser = gomeUserService.login(userName, userPass);
         //3. 根据service返回结果判断登录是否成功.
         if (gomeUser != null) {
-            //4. 如果成功,讲用户的信息放到session域中.
+            //4. 如果成功,将用户的信息放到session域中.
             session.setAttribute(USER, gomeUser);
             return ResultUtil.ok();
         } else {

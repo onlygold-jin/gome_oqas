@@ -29,7 +29,10 @@
 </head>
 <body>
 <div class="layui-container">
-    <h1>美财之星总决赛——第二环节·必答赛</h1>
+    <div>
+        <h1>美财之星总决赛——第二环节·才思敏捷</h1>
+        <span th:text="'当前答题人：'+${session.user.userPersonsName}"></span>
+    </div>
     <div th:each="r:${list}" class="layui-col-md3">
         <a th:href="@{/answer(thisNumber=${r.thisNumber})}" target="_self"
            class="layui-btn layui-bg-blue layui-btn-radius">
