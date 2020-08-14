@@ -2,6 +2,7 @@ package com.gome.mapper;
 
 import com.gome.pojo.QaQuestionList;
 import com.gome.pojo.QaQuestionListExample;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;

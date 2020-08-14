@@ -1,5 +1,7 @@
 package com.gome.pojo;
 
+import java.util.Date;
+
 public class QaCountItems {
     private Integer id;
 
@@ -8,6 +10,8 @@ public class QaCountItems {
     private String isEnable;
 
     private String respondent;
+
+    private Date startTime;
 
     public Integer getId() {
         return id;
@@ -39,5 +43,13 @@ public class QaCountItems {
 
     public void setRespondent(String respondent) {
         this.respondent = respondent == null ? null : respondent.trim();
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 }

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gome.mapper.QaCountItemsMapper">
-  <resultMap id="BaseResultMap" type="com.gome.pojo.QaCountItems">
+<mapper namespace="com.gome.mapper.QaScoresRecordMapper">
+  <resultMap id="BaseResultMap" type="com.gome.pojo.QaScoresRecord">
     <id column="ID" jdbcType="INTEGER" property="id" />
-    <result column="THIS_NUMBER" jdbcType="INTEGER" property="thisNumber" />
-    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
-    <result column="RESPONDENT" jdbcType="VARCHAR" property="respondent" />
-    <result column="START_TIME" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="STAGE" jdbcType="VARCHAR" property="stage" />
+    <result column="SCORE" jdbcType="DOUBLE" property="score" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, THIS_NUMBER, IS_ENABLE, RESPONDENT, START_TIME
+    ID, USER_NAME, STAGE, SCORE
   </sql>
-  <select id="selectByExample" parameterType="com.gome.pojo.QaCountItemsExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.gome.pojo.QaScoresRecordExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from qa_count_items
+    from qa_scores_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +85,76 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from qa_count_items
+    from qa_scores_record
     where ID = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from qa_count_items
+    delete from qa_scores_record
     where ID = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.gome.pojo.QaCountItemsExample">
-    delete from qa_count_items
+  <delete id="deleteByExample" parameterType="com.gome.pojo.QaScoresRecordExample">
+    delete from qa_scores_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.gome.pojo.QaCountItems">
-    insert into qa_count_items (ID, THIS_NUMBER, IS_ENABLE, 
-      RESPONDENT, START_TIME)
-    values (#{id,jdbcType=INTEGER}, #{thisNumber,jdbcType=INTEGER}, #{isEnable,jdbcType=VARCHAR}, 
-      #{respondent,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.gome.pojo.QaScoresRecord">
+    insert into qa_scores_record (ID, USER_NAME, STAGE, 
+      SCORE)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DOUBLE})
   </insert>
-  <insert id="insertSelective" parameterType="com.gome.pojo.QaCountItems">
-    insert into qa_count_items
+  <insert id="insertSelective" parameterType="com.gome.pojo.QaScoresRecord">
+    insert into qa_scores_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
       </if>
-      <if test="thisNumber != null">
-        THIS_NUMBER,
+      <if test="userName != null">
+        USER_NAME,
       </if>
-      <if test="isEnable != null">
-        IS_ENABLE,
+      <if test="stage != null">
+        STAGE,
       </if>
-      <if test="respondent != null">
-        RESPONDENT,
-      </if>
-      <if test="startTime != null">
-        START_TIME,
+      <if test="score != null">
+        SCORE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="thisNumber != null">
-        #{thisNumber,jdbcType=INTEGER},
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="isEnable != null">
-        #{isEnable,jdbcType=VARCHAR},
+      <if test="stage != null">
+        #{stage,jdbcType=VARCHAR},
       </if>
-      <if test="respondent != null">
-        #{respondent,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
+      <if test="score != null">
+        #{score,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.gome.pojo.QaCountItemsExample" resultType="java.lang.Long">
-    select count(*) from qa_count_items
+  <select id="countByExample" parameterType="com.gome.pojo.QaScoresRecordExample" resultType="java.lang.Long">
+    select count(*) from qa_scores_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update qa_count_items
+    update qa_scores_record
     <set>
       <if test="record.id != null">
         ID = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.thisNumber != null">
-        THIS_NUMBER = #{record.thisNumber,jdbcType=INTEGER},
+      <if test="record.userName != null">
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
       </if>
-      <if test="record.isEnable != null">
-        IS_ENABLE = #{record.isEnable,jdbcType=VARCHAR},
+      <if test="record.stage != null">
+        STAGE = #{record.stage,jdbcType=VARCHAR},
       </if>
-      <if test="record.respondent != null">
-        RESPONDENT = #{record.respondent,jdbcType=VARCHAR},
-      </if>
-      <if test="record.startTime != null">
-        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      <if test="record.score != null">
+        SCORE = #{record.score,jdbcType=DOUBLE},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,40 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update qa_count_items
+    update qa_scores_record
     set ID = #{record.id,jdbcType=INTEGER},
-      THIS_NUMBER = #{record.thisNumber,jdbcType=INTEGER},
-      IS_ENABLE = #{record.isEnable,jdbcType=VARCHAR},
-      RESPONDENT = #{record.respondent,jdbcType=VARCHAR},
-      START_TIME = #{record.startTime,jdbcType=TIMESTAMP}
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      STAGE = #{record.stage,jdbcType=VARCHAR},
+      SCORE = #{record.score,jdbcType=DOUBLE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.gome.pojo.QaCountItems">
-    update qa_count_items
+  <update id="updateByPrimaryKeySelective" parameterType="com.gome.pojo.QaScoresRecord">
+    update qa_scores_record
     <set>
-      <if test="thisNumber != null">
-        THIS_NUMBER = #{thisNumber,jdbcType=INTEGER},
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="isEnable != null">
-        IS_ENABLE = #{isEnable,jdbcType=VARCHAR},
+      <if test="stage != null">
+        STAGE = #{stage,jdbcType=VARCHAR},
       </if>
-      <if test="respondent != null">
-        RESPONDENT = #{respondent,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null">
-        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      <if test="score != null">
+        SCORE = #{score,jdbcType=DOUBLE},
       </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gome.pojo.QaCountItems">
-    update qa_count_items
-    set THIS_NUMBER = #{thisNumber,jdbcType=INTEGER},
-      IS_ENABLE = #{isEnable,jdbcType=VARCHAR},
-      RESPONDENT = #{respondent,jdbcType=VARCHAR},
-      START_TIME = #{startTime,jdbcType=TIMESTAMP}
+  <update id="updateByPrimaryKey" parameterType="com.gome.pojo.QaScoresRecord">
+    update qa_scores_record
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      STAGE = #{stage,jdbcType=VARCHAR},
+      SCORE = #{score,jdbcType=DOUBLE}
     where ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

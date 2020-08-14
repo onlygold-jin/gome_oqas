@@ -6,10 +6,7 @@ import com.gome.pojo.GomeUser;
 import com.gome.pojo.QaQuestionItems;
 import com.gome.pojo.QaQuestionList;
 import com.gome.pojo.QaQuestionReply;
-import com.gome.service.QaCountItemsService;
-import com.gome.service.QaQuestionItemsService;
-import com.gome.service.QaQuestionListService;
-import com.gome.service.QaQuestionReplyService;
+import com.gome.service.*;
 import com.gome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.gome.constant.GomeConstant.*;
@@ -40,6 +39,8 @@ public class AnswerController {
     private QaQuestionItemsService questionItemsService;
     @Autowired
     private QaQuestionReplyService questionReplyService;
+    @Autowired
+    private QaScoresRecordService scoresRecordService;
 
     @GetMapping("/answer")
     public String answer(Integer thisNumber, HttpServletRequest request, Model model) {
@@ -123,6 +124,24 @@ public class AnswerController {
                 return ResultUtil.build(ANSWER_UPDATE_USERNAME_ERROR.getStatus(), ANSWER_UPDATE_USERNAME_ERROR.getMsg());
             }
         }
-        return resultUtil;
+        // 7. 计算分数 通过list
+        ResultUtil result = questionListService.calculateScore(list);
+        // 8. 保存分数
+        Boolean b = scoresRecordService.saveScore((Double) result.getData(), gomeUser.getUserName(), "1");
+        if (!b){
+            return ResultUtil.build(SAVE_SCORE_ERROR.getStatus(), SAVE_SCORE_ERROR.getMsg());
+        }
+        return result;
+    }
+
+    /**
+     * 添加答题开始时间
+     */
+    @PostMapping("/start-time")
+    @ResponseBody
+    public ResultUtil insertTime(Date startTime, HttpServletRequest request) throws ParseException {
+        HttpSession session = request.getSession();
+        GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
+        return countItemsService.getStartTimeTONull(gomeUser.getUserName(), startTime);
     }
 }

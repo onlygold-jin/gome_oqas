@@ -1,6 +1,8 @@
 package com.gome.service;
 
 import com.gome.pojo.QaQuestionList;
+import com.gome.pojo.QaQuestionReply;
+import com.gome.util.ResultUtil;
 
 import java.util.List;
 
@@ -16,4 +18,6 @@ public interface QaQuestionListService {
 
     // 判断是否是复选框
     boolean ifCheckbox(Integer id);
+
+    ResultUtil calculateScore(List<QaQuestionReply> list);
 }

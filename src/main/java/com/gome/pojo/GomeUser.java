@@ -11,6 +11,16 @@ public class GomeUser {
 
     private String userPersonsName;
 
+    private String photoUrl;
+
+    private String branch;
+
+    private String isSubmitRobot;
+
+    private String videoUrl;
+
+    private Integer competitionOrder;
+
     public Integer getUserId() {
         return userId;
     }
@@ -49,5 +59,45 @@ public class GomeUser {
 
     public void setUserPersonsName(String userPersonsName) {
         this.userPersonsName = userPersonsName == null ? null : userPersonsName.trim();
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl == null ? null : photoUrl.trim();
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch == null ? null : branch.trim();
+    }
+
+    public String getIsSubmitRobot() {
+        return isSubmitRobot;
+    }
+
+    public void setIsSubmitRobot(String isSubmitRobot) {
+        this.isSubmitRobot = isSubmitRobot == null ? null : isSubmitRobot.trim();
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl == null ? null : videoUrl.trim();
+    }
+
+    public Integer getCompetitionOrder() {
+        return competitionOrder;
+    }
+
+    public void setCompetitionOrder(Integer competitionOrder) {
+        this.competitionOrder = competitionOrder;
     }
 }

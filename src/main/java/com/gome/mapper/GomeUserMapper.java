@@ -2,6 +2,7 @@ package com.gome.mapper;
 
 import com.gome.pojo.GomeUser;
 import com.gome.pojo.GomeUserExample;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;

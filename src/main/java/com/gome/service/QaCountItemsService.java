@@ -3,6 +3,7 @@ package com.gome.service;
 import com.gome.pojo.QaCountItems;
 import com.gome.util.ResultUtil;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,4 +24,7 @@ public interface QaCountItemsService {
 
     // 修改题的状态
     Boolean updateIsEnable(String userName);
+
+    // 判断当前用户选中的题的开始时间是否为空
+    ResultUtil getStartTimeTONull(String userName, Date date);
 }

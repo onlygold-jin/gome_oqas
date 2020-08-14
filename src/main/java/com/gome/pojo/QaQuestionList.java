@@ -11,6 +11,8 @@ public class QaQuestionList {
 
     private Integer thisNumber;
 
+    private Integer score;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class QaQuestionList {
 
     public void setThisNumber(Integer thisNumber) {
         this.thisNumber = thisNumber;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

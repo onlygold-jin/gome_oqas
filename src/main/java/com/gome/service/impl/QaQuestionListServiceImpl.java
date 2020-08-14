@@ -1,11 +1,13 @@
 package com.gome.service.impl;
 
-import com.gome.mapper.QaCountItemsMapper;
 import com.gome.mapper.QaQuestionListMapper;
-import com.gome.pojo.QaCountItemsExample;
 import com.gome.pojo.QaQuestionList;
 import com.gome.pojo.QaQuestionListExample;
+import com.gome.pojo.QaQuestionReply;
 import com.gome.service.QaQuestionListService;
+import com.gome.util.ArrayUtil;
+import com.gome.util.DoubleUtil;
+import com.gome.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,4 +53,44 @@ public class QaQuestionListServiceImpl implements QaQuestionListService {
         }
         return false;
     }
+
+    @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public ResultUtil calculateScore(List<QaQuestionReply> list) {
+        double d = 0.00;
+        for (QaQuestionReply questionReply : list) {
+            QaQuestionList questionList = questionListMapper.selectByPrimaryKey(questionReply.getQuestionId());
+            if (questionList.getQuestionType().equals("1")){
+                // 如果是单选题
+                if (questionList.getAnswer().equals(questionReply.getAnswer())) {
+                    d = DoubleUtil.sum(d, questionList.getScore());
+                }
+            }else if (questionList.getQuestionType().equals("2")){
+                // 如果是多选题
+
+                //获取正确答案
+                String[] strArrs1 = questionList.getAnswer().split(";");
+                //将选择的答案拆分成数组
+                String[] strArrs2 = questionReply.getAnswer().split(";");
+
+
+                //进行答案比较，计算得分
+                if(ArrayUtil.strayEqual(strArrs1,strArrs2)){
+                    d = DoubleUtil.sum(d, questionList.getScore());
+                }else{
+                    d = DoubleUtil.sum(d, 0);
+                }
+
+
+
+
+
+            }
+        }
+        return ResultUtil.ok(d);
+    }
+
+
+
+
 }

@@ -16,6 +16,8 @@ public enum ResultEnums {
     UPDATE_PASS_NULL(6, "新密码和确认密码不一致！"),
     ANSWER_ERROR(8, "提交失败！"),
     ANSWER_UPDATE_USERNAME_ERROR(9, "作答无效!请重新登录之后，在答题！"),
+    START_TIME_ERROR(10, "查找开始时间失败！"),
+    SAVE_SCORE_ERROR(11, "分数保存失败！"),
     ;
 
     private Integer status;

@@ -443,6 +443,346 @@ public class GomeUserExample {
             addCriterion("USER_PERSONS_NAME not between", value1, value2, "userPersonsName");
             return (Criteria) this;
         }
+
+        public Criteria andPhotoUrlIsNull() {
+            addCriterion("PHOTO_URL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlIsNotNull() {
+            addCriterion("PHOTO_URL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlEqualTo(String value) {
+            addCriterion("PHOTO_URL =", value, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlNotEqualTo(String value) {
+            addCriterion("PHOTO_URL <>", value, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlGreaterThan(String value) {
+            addCriterion("PHOTO_URL >", value, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("PHOTO_URL >=", value, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlLessThan(String value) {
+            addCriterion("PHOTO_URL <", value, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlLessThanOrEqualTo(String value) {
+            addCriterion("PHOTO_URL <=", value, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlLike(String value) {
+            addCriterion("PHOTO_URL like", value, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlNotLike(String value) {
+            addCriterion("PHOTO_URL not like", value, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlIn(List<String> values) {
+            addCriterion("PHOTO_URL in", values, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlNotIn(List<String> values) {
+            addCriterion("PHOTO_URL not in", values, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlBetween(String value1, String value2) {
+            addCriterion("PHOTO_URL between", value1, value2, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhotoUrlNotBetween(String value1, String value2) {
+            addCriterion("PHOTO_URL not between", value1, value2, "photoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIsNull() {
+            addCriterion("BRANCH is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIsNotNull() {
+            addCriterion("BRANCH is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchEqualTo(String value) {
+            addCriterion("BRANCH =", value, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNotEqualTo(String value) {
+            addCriterion("BRANCH <>", value, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchGreaterThan(String value) {
+            addCriterion("BRANCH >", value, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchGreaterThanOrEqualTo(String value) {
+            addCriterion("BRANCH >=", value, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchLessThan(String value) {
+            addCriterion("BRANCH <", value, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchLessThanOrEqualTo(String value) {
+            addCriterion("BRANCH <=", value, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchLike(String value) {
+            addCriterion("BRANCH like", value, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNotLike(String value) {
+            addCriterion("BRANCH not like", value, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchIn(List<String> values) {
+            addCriterion("BRANCH in", values, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNotIn(List<String> values) {
+            addCriterion("BRANCH not in", values, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchBetween(String value1, String value2) {
+            addCriterion("BRANCH between", value1, value2, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchNotBetween(String value1, String value2) {
+            addCriterion("BRANCH not between", value1, value2, "branch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotIsNull() {
+            addCriterion("IS_SUBMIT_ROBOT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotIsNotNull() {
+            addCriterion("IS_SUBMIT_ROBOT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotEqualTo(String value) {
+            addCriterion("IS_SUBMIT_ROBOT =", value, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotNotEqualTo(String value) {
+            addCriterion("IS_SUBMIT_ROBOT <>", value, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotGreaterThan(String value) {
+            addCriterion("IS_SUBMIT_ROBOT >", value, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotGreaterThanOrEqualTo(String value) {
+            addCriterion("IS_SUBMIT_ROBOT >=", value, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotLessThan(String value) {
+            addCriterion("IS_SUBMIT_ROBOT <", value, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotLessThanOrEqualTo(String value) {
+            addCriterion("IS_SUBMIT_ROBOT <=", value, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotLike(String value) {
+            addCriterion("IS_SUBMIT_ROBOT like", value, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotNotLike(String value) {
+            addCriterion("IS_SUBMIT_ROBOT not like", value, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotIn(List<String> values) {
+            addCriterion("IS_SUBMIT_ROBOT in", values, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotNotIn(List<String> values) {
+            addCriterion("IS_SUBMIT_ROBOT not in", values, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotBetween(String value1, String value2) {
+            addCriterion("IS_SUBMIT_ROBOT between", value1, value2, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSubmitRobotNotBetween(String value1, String value2) {
+            addCriterion("IS_SUBMIT_ROBOT not between", value1, value2, "isSubmitRobot");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlIsNull() {
+            addCriterion("VIDEO_URL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlIsNotNull() {
+            addCriterion("VIDEO_URL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlEqualTo(String value) {
+            addCriterion("VIDEO_URL =", value, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlNotEqualTo(String value) {
+            addCriterion("VIDEO_URL <>", value, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlGreaterThan(String value) {
+            addCriterion("VIDEO_URL >", value, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("VIDEO_URL >=", value, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlLessThan(String value) {
+            addCriterion("VIDEO_URL <", value, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlLessThanOrEqualTo(String value) {
+            addCriterion("VIDEO_URL <=", value, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlLike(String value) {
+            addCriterion("VIDEO_URL like", value, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlNotLike(String value) {
+            addCriterion("VIDEO_URL not like", value, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlIn(List<String> values) {
+            addCriterion("VIDEO_URL in", values, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlNotIn(List<String> values) {
+            addCriterion("VIDEO_URL not in", values, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlBetween(String value1, String value2) {
+            addCriterion("VIDEO_URL between", value1, value2, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoUrlNotBetween(String value1, String value2) {
+            addCriterion("VIDEO_URL not between", value1, value2, "videoUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderIsNull() {
+            addCriterion("COMPETITION_ORDER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderIsNotNull() {
+            addCriterion("COMPETITION_ORDER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderEqualTo(Integer value) {
+            addCriterion("COMPETITION_ORDER =", value, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderNotEqualTo(Integer value) {
+            addCriterion("COMPETITION_ORDER <>", value, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderGreaterThan(Integer value) {
+            addCriterion("COMPETITION_ORDER >", value, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("COMPETITION_ORDER >=", value, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderLessThan(Integer value) {
+            addCriterion("COMPETITION_ORDER <", value, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("COMPETITION_ORDER <=", value, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderIn(List<Integer> values) {
+            addCriterion("COMPETITION_ORDER in", values, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderNotIn(List<Integer> values) {
+            addCriterion("COMPETITION_ORDER not in", values, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderBetween(Integer value1, Integer value2) {
+            addCriterion("COMPETITION_ORDER between", value1, value2, "competitionOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompetitionOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("COMPETITION_ORDER not between", value1, value2, "competitionOrder");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
