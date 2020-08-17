@@ -7,6 +7,7 @@
     <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
     <result column="RESPONDENT" jdbcType="VARCHAR" property="respondent" />
     <result column="START_TIME" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="THIS_LINKS" jdbcType="VARCHAR" property="thisLinks" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, THIS_NUMBER, IS_ENABLE, RESPONDENT, START_TIME
+    ID, THIS_NUMBER, IS_ENABLE, RESPONDENT, START_TIME, THIS_LINKS
   </sql>
   <select id="selectByExample" parameterType="com.gome.pojo.QaCountItemsExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="com.gome.pojo.QaCountItems">
     insert into qa_count_items (ID, THIS_NUMBER, IS_ENABLE, 
-      RESPONDENT, START_TIME)
+      RESPONDENT, START_TIME, THIS_LINKS
+      )
     values (#{id,jdbcType=INTEGER}, #{thisNumber,jdbcType=INTEGER}, #{isEnable,jdbcType=VARCHAR}, 
-      #{respondent,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP})
+      #{respondent,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{thisLinks,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.gome.pojo.QaCountItems">
     insert into qa_count_items
@@ -123,6 +126,9 @@
       <if test="startTime != null">
         START_TIME,
       </if>
+      <if test="thisLinks != null">
+        THIS_LINKS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +145,9 @@
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thisLinks != null">
+        #{thisLinks,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +175,9 @@
       <if test="record.startTime != null">
         START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.thisLinks != null">
+        THIS_LINKS = #{record.thisLinks,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +189,8 @@
       THIS_NUMBER = #{record.thisNumber,jdbcType=INTEGER},
       IS_ENABLE = #{record.isEnable,jdbcType=VARCHAR},
       RESPONDENT = #{record.respondent,jdbcType=VARCHAR},
-      START_TIME = #{record.startTime,jdbcType=TIMESTAMP}
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      THIS_LINKS = #{record.thisLinks,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +210,9 @@
       <if test="startTime != null">
         START_TIME = #{startTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="thisLinks != null">
+        THIS_LINKS = #{thisLinks,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +221,8 @@
     set THIS_NUMBER = #{thisNumber,jdbcType=INTEGER},
       IS_ENABLE = #{isEnable,jdbcType=VARCHAR},
       RESPONDENT = #{respondent,jdbcType=VARCHAR},
-      START_TIME = #{startTime,jdbcType=TIMESTAMP}
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      THIS_LINKS = #{thisLinks,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

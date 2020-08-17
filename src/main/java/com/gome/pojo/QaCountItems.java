@@ -13,6 +13,8 @@ public class QaCountItems {
 
     private Date startTime;
 
+    private String thisLinks;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +53,13 @@ public class QaCountItems {
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
+    }
+
+    public String getThisLinks() {
+        return thisLinks;
+    }
+
+    public void setThisLinks(String thisLinks) {
+        this.thisLinks = thisLinks == null ? null : thisLinks.trim();
     }
 }

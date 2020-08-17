@@ -424,6 +424,76 @@ public class QaCountItemsExample {
             addCriterion("START_TIME not between", value1, value2, "startTime");
             return (Criteria) this;
         }
+
+        public Criteria andThisLinksIsNull() {
+            addCriterion("THIS_LINKS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksIsNotNull() {
+            addCriterion("THIS_LINKS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksEqualTo(String value) {
+            addCriterion("THIS_LINKS =", value, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksNotEqualTo(String value) {
+            addCriterion("THIS_LINKS <>", value, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksGreaterThan(String value) {
+            addCriterion("THIS_LINKS >", value, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksGreaterThanOrEqualTo(String value) {
+            addCriterion("THIS_LINKS >=", value, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksLessThan(String value) {
+            addCriterion("THIS_LINKS <", value, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksLessThanOrEqualTo(String value) {
+            addCriterion("THIS_LINKS <=", value, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksLike(String value) {
+            addCriterion("THIS_LINKS like", value, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksNotLike(String value) {
+            addCriterion("THIS_LINKS not like", value, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksIn(List<String> values) {
+            addCriterion("THIS_LINKS in", values, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksNotIn(List<String> values) {
+            addCriterion("THIS_LINKS not in", values, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksBetween(String value1, String value2) {
+            addCriterion("THIS_LINKS between", value1, value2, "thisLinks");
+            return (Criteria) this;
+        }
+
+        public Criteria andThisLinksNotBetween(String value1, String value2) {
+            addCriterion("THIS_LINKS not between", value1, value2, "thisLinks");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
