@@ -135,13 +135,13 @@ public class AnswerController {
     }
 
     /**
-     * 添加答题开始时间
+     * 倒计时
      */
     @PostMapping("/start-time")
     @ResponseBody
-    public ResultUtil insertTime(Date startTime, HttpServletRequest request) throws ParseException {
+    public ResultUtil insertTime(Date startTime, Integer num, HttpServletRequest request) {
         HttpSession session = request.getSession();
         GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
-        return countItemsService.getStartTimeTONull(gomeUser.getUserName(), startTime);
+        return countItemsService.getStartTimeTONull(gomeUser.getUserName(), startTime, num);
     }
 }

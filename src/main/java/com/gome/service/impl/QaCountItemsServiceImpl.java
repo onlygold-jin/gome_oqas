@@ -118,25 +118,27 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
      */
     @Override
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public ResultUtil getStartTimeTONull(String userName, Date date) {
+    public ResultUtil getStartTimeTONull(String userName, Date date, Integer num) {
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
+        // 1.查询当前用户选中的题，的开始时间是否为空
         criteria.andRespondentEqualTo(userName);
         criteria.andStartTimeIsNull();
-        // 1.查询当前用户选中的题，的开始时间是否为空
+        criteria.andThisLinksEqualTo(num.toString());
         List<QaCountItems> list = qaCountItemsMapper.selectByExample(example);
         if (!list.isEmpty()) {
             for (QaCountItems countItems : list) {
-                // 1.1 如果为空则填如当前传过来的时间
+                // 1.1 如果时间为空则填如当前传过来的时间
                 countItems.setStartTime(date);
                 qaCountItemsMapper.updateByPrimaryKey(countItems);
                 return ResultUtil.ok(date);
             }
         } else {
-            // 1.2 如果不为空则返回空中的时间
+            // 1.2 如果时间不为空则返回 空中的时间
             QaCountItemsExample example1 = new QaCountItemsExample();
             QaCountItemsExample.Criteria criteria1 = example.createCriteria();
-            criteria.andRespondentEqualTo(userName);
+            criteria1.andRespondentEqualTo(userName);
+            criteria1.andThisLinksEqualTo(num.toString());
             List<QaCountItems> list1 = qaCountItemsMapper.selectByExample(example1);
             if (!list1.isEmpty()) {
                 for (QaCountItems qaCountItems : list1) {

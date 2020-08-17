@@ -26,5 +26,5 @@ public interface QaCountItemsService {
     Boolean updateIsEnable(String userName);
 
     // 判断当前用户选中的题的开始时间是否为空
-    ResultUtil getStartTimeTONull(String userName, Date date);
+    ResultUtil getStartTimeTONull(String userName, Date date,Integer num);
 }

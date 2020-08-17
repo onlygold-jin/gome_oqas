@@ -4,14 +4,68 @@
     <meta charset="UTF-8">
     <title>演讲页面</title>
     <link rel="stylesheet" href="../static/layui/css/layui.css">
-
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/speech.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div>
-    <h1>演讲页面</h1>
+<div id="home" class="header">
+    <div class="container">
+        <!-- top-hedader -->
+        <div class="top-header">
+            <!-- /logo -->
+
+            <div class="banner-info">
+                <div class="col-md-7 header-right">
+                    <h1>Hi !</h1>
+                    <h6 th:text="${'当前为第'+gomeUser.competitionOrder+'位参赛选手'}"></h6>
+                    <ul class="address">
+
+                        <li>
+                            <ul class="address-text">
+                                <li><b>姓名</b></li>
+                                <li th:text="${gomeUser.userPersonsName}"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="address-text">
+                                <li><b>板块</b></li>
+                                <li th:text="${branch0}"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="address-text">
+                                <li><b>部门</b></li>
+                                <li th:text="${branch1}"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="address-text">
+                                <li><b>岗位</b></li>
+                                <li th:text="${branch2}"></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <ul class="address-text">
+                                <li><b>视频展示</b></li>
+                                <li th:text="${gomeUser.isSubmitRobot}"></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="col-md-5 header-left">
+                    <img th:src="${gomeUser.photoUrl}" alt="">
+<!--                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597315971848&di=dd97a2dabb683b3ed2454180315a9505&imgtype=0&src=http%3A%2F%2Fa1.att.hudong.com%2F62%2F02%2F01300542526392139955025309984.jpg" alt="">-->
+                </div>
+                <div class="clearfix"> </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script src="../static/js/jquery-3.3.1.min.js"></script>
+<script src="../static/js/bootstrap.js"></script>
 <script src="../static/layui/layui.all.js"></script>
 <script>
     ;!function () {
@@ -19,7 +73,7 @@
             form = layui.form;
         layer.msg("");
         //连接到websocket
-        var webSocketUrl = "ws://192.168.0.113:8088/websocket/[[${session.user.userName}]]";
+        var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
         var socket = new WebSocket(webSocketUrl);
 
         //获得消息事件
