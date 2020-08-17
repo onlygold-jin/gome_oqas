@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.gome.constant.GomeConstant.*;
@@ -54,7 +53,8 @@ public class AnswerController {
             // 本套题已经被当前登陆人选中
             boolean b = countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName());
             if (!b) {
-                return INDEX;
+                // 选题卡页面
+                return TOPIC;
             }
         }
         // 2.获取本套题所有的选择题
@@ -128,7 +128,7 @@ public class AnswerController {
         ResultUtil result = questionListService.calculateScore(list);
         // 8. 保存分数
         Boolean b = scoresRecordService.saveScore((Double) result.getData(), gomeUser.getUserName(), "1");
-        if (!b){
+        if (!b) {
             return ResultUtil.build(SAVE_SCORE_ERROR.getStatus(), SAVE_SCORE_ERROR.getMsg());
         }
         return result;

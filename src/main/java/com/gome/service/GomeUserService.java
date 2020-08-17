@@ -14,4 +14,6 @@ public interface GomeUserService {
     ResultUtil updateUser(GomeUser gomeUser);
     // 登录
     GomeUser login(String username, String password);
+    // 通过选手号，查询用户
+    GomeUser selectAll(Integer competitionOrder);
 }

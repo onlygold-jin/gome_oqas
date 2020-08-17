@@ -61,4 +61,25 @@ public class GomeUserServiceImpl implements GomeUserService {
         }
         return null;
     }
+
+    /**
+     * 通过选手号查询用户
+     *
+     * @param competitionOrder
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public GomeUser selectAll(Integer competitionOrder) {
+        GomeUserExample example = new GomeUserExample();
+        GomeUserExample.Criteria criteria = example.createCriteria();
+        criteria.andCompetitionOrderEqualTo(competitionOrder);
+        List<GomeUser> list = gomeUserMapper.selectByExample(example);
+        if (list.size() != 0) {
+            for (GomeUser gomeUser : list) {
+                return gomeUser;
+            }
+        }
+        return null;
+    }
 }

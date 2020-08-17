@@ -20,7 +20,19 @@ public interface GomeConstant {
      */
     String INDEX = "index";
     /**
+     * 选题卡页
+     */
+    String TOPIC = "topic";
+    /**
      * 答题页
      */
     String ANSWER = "answer";
+    /**
+     * 规则页面
+     */
+    String RULE = "rule";
+    /**
+     * 演讲页
+     */
+    String SPEECH = "speech";
 }
