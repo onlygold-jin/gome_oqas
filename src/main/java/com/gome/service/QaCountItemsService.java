@@ -14,15 +14,15 @@ import java.util.List;
  */
 public interface QaCountItemsService {
     // 查询所有为答的题
-    List<QaCountItems> getCountList();
+    List<QaCountItems> getCountList(String thisLinks);
 
     // 添加套题用户
-    boolean updateThisNumber(Integer thisNumber, String userName);
+    boolean updateThisNumber(Integer thisNumber, String userName,String thisLinks);
 
     // 查看当前用户是否有选中的题
-    Integer selectThisNumber(String userName);
+    Integer selectThisNumber(String userName,String thisLinks);
 
     // 修改题的状态
-    Boolean updateIsEnable(String userName);
+    Boolean updateIsEnable(String userName,String thisLinks);
 
 }

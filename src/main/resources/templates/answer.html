@@ -189,7 +189,7 @@
                                 content: '<div style="padding: 20px 100px;font-size: 16px;">答题人:[(${session.user.userPersonsName})]<br/><span>分数:' + result.data + '</span></div>',
                                 yes: function () {
                                     layer.closeAll();
-                                    window.open("user.html", "_self")
+                                    window.location.href = "/score";
                                 }
                             });
                         } else {

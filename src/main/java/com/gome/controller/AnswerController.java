@@ -46,17 +46,18 @@ public class AnswerController {
         HttpSession session = request.getSession();
         GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
         //1.如果之前已经有选中的题
-        Integer integer = countItemsService.selectThisNumber(gomeUser.getUserName());
+        Integer integer = countItemsService.selectThisNumber(gomeUser.getUserName(),"2");
         if (integer != null) {
             thisNumber = integer;
         } else {
             // 本套题已经被当前登陆人选中
-            boolean b = countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName());
+            boolean b = countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName(),"2");
             if (!b) {
                 // 选题卡页面
                 return TOPIC;
             }
         }
+
         // 2.获取本套题所有的选择题
         List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber);
         List<QuestionDTO> list = new ArrayList<>();
@@ -72,6 +73,7 @@ public class AnswerController {
             questionDTO.setItem(questionItemsList);
             list.add(questionDTO);
         }
+
         model.addAttribute("list", list);
         return ANSWER;
     }
@@ -119,7 +121,7 @@ public class AnswerController {
         ResultUtil resultUtil = questionReplyService.insertQaQuestionReply(list);
         // 6. 如果答题成功 ，将本套题的状态改为是
         if (resultUtil.getStatus() == 200) {
-            Boolean b = countItemsService.updateIsEnable(gomeUser.getUserName());
+            Boolean b = countItemsService.updateIsEnable(gomeUser.getUserName(),"2");
             if (!b) {
                 return ResultUtil.build(ANSWER_UPDATE_USERNAME_ERROR.getStatus(), ANSWER_UPDATE_USERNAME_ERROR.getMsg());
             }

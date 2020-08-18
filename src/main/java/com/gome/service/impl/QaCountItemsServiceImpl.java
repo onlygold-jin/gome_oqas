@@ -26,14 +26,14 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
     private QaCountItemsMapper qaCountItemsMapper;
 
     @Override
-//    @Scheduled(cron = "0/10 * * * * ?")
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public List<QaCountItems> getCountList() {
+    public List<QaCountItems> getCountList(String thisLinks) {
         System.err.println(new Date());
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
         criteria.andIsEnableLike("否");
         criteria.andRespondentIsNull();
+        criteria.andThisLinksEqualTo(thisLinks);
         return qaCountItemsMapper.selectByExample(example);
     }
 
@@ -46,10 +46,11 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
      */
     @Override
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public boolean updateThisNumber(Integer thisNumber, String userName) {
+    public boolean updateThisNumber(Integer thisNumber, String userName,String thisLinks) {
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
         criteria.andThisNumberEqualTo(thisNumber);
+        criteria.andThisLinksEqualTo(thisLinks);
         List<QaCountItems> list = qaCountItemsMapper.selectByExample(example);
         if (!list.isEmpty()) {
             for (QaCountItems countItems : list) {
@@ -72,10 +73,11 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
      */
     @Override
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public Integer selectThisNumber(String userName) {
+    public Integer selectThisNumber(String userName,String thisLinks) {
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
         criteria.andRespondentEqualTo(userName);
+        criteria.andThisLinksEqualTo(thisLinks);
         List<QaCountItems> list = qaCountItemsMapper.selectByExample(example);
         if (list.size() != 0) {
             for (QaCountItems qaCountItems : list) {
@@ -93,10 +95,11 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
      */
     @Override
     @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public Boolean updateIsEnable(String userName) {
+    public Boolean updateIsEnable(String userName,String thisLinks) {
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
         criteria.andRespondentEqualTo(userName);
+        criteria.andThisLinksEqualTo(thisLinks);
         List<QaCountItems> list = qaCountItemsMapper.selectByExample(example);
         if (list.size() != 0) {
             for (QaCountItems qaCountItems : list) {

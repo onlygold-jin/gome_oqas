@@ -35,4 +35,8 @@ public interface GomeConstant {
      * 演讲页
      */
     String SPEECH = "speech";
+    /**
+     * 得分页面
+     */
+    String SCORE = "score";
 }

@@ -38,17 +38,17 @@ public class TopicController {
                 model.addAttribute("disable", "是");
             }
             // 1.查询当前用户是否有选中题
-            Integer integer = qaCountItemsService.selectThisNumber(gomeUser.getUserName());
+            Integer integer = qaCountItemsService.selectThisNumber(gomeUser.getUserName(),"2");
             if (integer != null) {
                 // 第二环节 答题页
                 return "redirect:/" + ANSWER;
             }
             // 2.没有选中的题
-            List<QaCountItems> countList = qaCountItemsService.getCountList();
+            List<QaCountItems> countList = qaCountItemsService.getCountList("2");
             model.addAttribute("list", countList);
         } else {
             // 查询所有的题
-            List<QaCountItems> countList = qaCountItemsService.getCountList();
+            List<QaCountItems> countList = qaCountItemsService.getCountList("2");
             model.addAttribute("list", countList);
             model.addAttribute("disable", "是");
         }

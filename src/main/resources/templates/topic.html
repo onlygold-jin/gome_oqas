@@ -37,13 +37,14 @@
         <h1>美财之星总决赛——第二环节·才思敏捷</h1>
         <span th:text="'当前答题人：'+${session.user.userPersonsName}"></span>
     </div>
+
     <div th:each="r:${list}" class="layui-col-md3">
-        <a th:if="${disable=='否'}" th:href="@{/answer(thisNumber=${r.thisNumber})}" target="_self"
-           class="layui-btn">
+
+        <button th:if="${disable=='否'}"  th:onclick="a([[${r.thisNumber}]],[[${r.thisLinks}]]);" class="layui-btn">
             <span th:text="${'第'+r.thisNumber+'套题'}"></span>
-        </a>
+        </button>
         <button th:if="${disable=='是'}"
-           class="layui-btn layui-btn-disabled ">
+                class="layui-btn layui-btn-disabled ">
             <span th:text="${'第'+r.thisNumber+'套题'}"></span>
         </button>
     </div>
@@ -52,22 +53,23 @@
 <script src="../static/js/jquery-3.3.1.min.js"></script>
 <script src="../static/layui/layui.all.js"></script>
 <script>
+    var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
+    var socket = new WebSocket(webSocketUrl);
     ;!function () {
         var layer = layui.layer,
             form = layui.form;
         //连接到websocket
-        var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
-        var socket = new WebSocket(webSocketUrl);
+
 
         //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
             // 解析JSON串
             var data = JSON.parse(msg.data);
-            // if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
-            //     // 跳转
-            //     window.location.href = "/topic?userSortnum=" + data.message.userSortnum;
-            // }
+            if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
+                // 跳转
+                window.location.href = "/topic?userSortnum=" + data.message.userSortnum;
+            }
         };
         //关闭事件
         socket.onclose = function () {
@@ -78,6 +80,17 @@
         socket.onerror = function () {
             console.log("websocket发生了错误");
         }
+
+
     }();
+
+    function a(thisNumber, thisLinks) {
+        console.log(thisNumber);
+        console.log(thisLinks);
+        // 跳转连接
+        socket.send('{"toUserId":"publicscreen","message":{"thisLinks":"' + thisLinks + '","thisNumber":"' + thisNumber + '"}}');
+        //window.location.href = "/answer?thisNumber=" + thisNumber;
+
+    }
 </script>
 </html>
