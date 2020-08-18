@@ -39,4 +39,12 @@ public interface GomeConstant {
      * 得分页面
      */
     String SCORE = "score";
+    /**
+     * 主观题页面
+     */
+    String SUBJECTIVE = "subjective";
+    /**
+     * 等待页面
+     */
+    String WAIT = "wait";
 }

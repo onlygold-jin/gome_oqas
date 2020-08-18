@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>规则页面</title>
+    <title>等待页面</title>
+    <link href="../static/favicon.ico" rel="shortcut icon">
     <link rel="stylesheet" href="../static/layui/css/layui.css">
 
 </head>
 <body>
 <div>
-    <h1>规则页面</h1>
+    <h1>等待其他选手开始答题！</h1>
 </div>
 </body>
 <script src="../static/js/jquery-3.3.1.min.js"></script>
@@ -24,13 +25,18 @@
         //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
-            // 解析JSON串
-            var data = JSON.parse(msg.data);
-            if (data.message.userSortnum !== -1 && data.message.thisLinks === 1) {
-                // 跳转到演讲页面
-                window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+            if (msg.data !== "连接成功") {
+                // 解析JSON串
+                var data = JSON.parse(msg.data);
+                if (data.message.userSortnum === -1) {
+                    // 跳转到规则页面
+                    window.location.href = "/process?this_Links=" + data.message.thisLinks;
+                }
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 3) {
+                    // 跳转 第三环节选题卡页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
             }
-
         };
         //关闭事件
         socket.onclose = function () {

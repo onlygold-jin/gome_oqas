@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>演讲页面</title>
+    <link href="../static/favicon.ico" rel="shortcut icon">
     <link rel="stylesheet" href="../static/layui/css/layui.css">
     <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="../static/css/speech.css" rel="stylesheet" type="text/css"/>
@@ -13,7 +14,6 @@
         <!-- top-hedader -->
         <div class="top-header">
             <!-- /logo -->
-
             <div class="banner-info">
                 <div class="col-md-7 header-right">
                     <h1 id="test"></h1>
@@ -54,8 +54,7 @@
                     </ul>
                 </div>
                 <div class="col-md-5 header-left">
-                    <img th:src="${gomeUser.photoUrl}" alt="">
-                    <!--                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597315971848&di=dd97a2dabb683b3ed2454180315a9505&imgtype=0&src=http%3A%2F%2Fa1.att.hudong.com%2F62%2F02%2F01300542526392139955025309984.jpg" alt="">-->
+                    <img th:src="${gomeUser.photoUrl}" alt="" style="width:380px;height: 350px; ">
                 </div>
                 <div class="clearfix"></div>
 
@@ -102,17 +101,18 @@
         //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
-            // 解析JSON串
-            var data = JSON.parse(msg.data);
-            if (data.message.userSortnum !== -1 && data.message.thisLinks === 1) {
-                // 跳转到演讲页面
-                window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+            if (msg.data !== "连接成功") {
+                // 解析JSON串
+                var data = JSON.parse(msg.data);
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 1) {
+                    // 跳转到演讲页面
+                    window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
+                if (data.message.userSortnum === -1 && data.message.thisLinks === 2) {
+                    // 跳转到选题页面 按钮为灰色
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
             }
-            if (data.message.userSortnum === -1 && data.message.thisLinks === 2) {
-                // 跳转到选题页面 按钮为灰色
-                window.location.href = "/topic?userSortnum=" + data.message.userSortnum;
-            }
-
         };
         //关闭事件
         socket.onclose = function () {

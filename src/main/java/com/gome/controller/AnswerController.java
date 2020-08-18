@@ -42,40 +42,46 @@ public class AnswerController {
     private QaScoresRecordService scoresRecordService;
 
     @GetMapping("/answer")
-    public String answer(Integer thisNumber, HttpServletRequest request, Model model) {
+    public String answer(@RequestParam Integer thisNumber, @RequestParam String thisLinks, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
         //1.如果之前已经有选中的题
-        Integer integer = countItemsService.selectThisNumber(gomeUser.getUserName(),"2");
+        Integer integer = countItemsService.selectThisNumber(gomeUser.getUserName(), thisLinks);
         if (integer != null) {
             thisNumber = integer;
         } else {
             // 本套题已经被当前登陆人选中
-            boolean b = countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName(),"2");
+            boolean b = countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName(), thisLinks);
             if (!b) {
                 // 选题卡页面
                 return TOPIC;
             }
         }
 
-        // 2.获取本套题所有的选择题
-        List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber);
-        List<QuestionDTO> list = new ArrayList<>();
-        for (QaQuestionList question : questionList) {
-            QuestionDTO questionDTO = new QuestionDTO();
-            questionDTO.setId(question.getId());
-            questionDTO.setAnswer(question.getAnswer());
-            questionDTO.setQuestionTitle(question.getQuestionTitle());
-            questionDTO.setQuestionType(question.getQuestionType());
-            questionDTO.setThisNumber(question.getThisNumber());
-            // 3.查询 abcd
-            List<QaQuestionItems> questionItemsList = questionItemsService.getQuestionItemsList(question.getId());
-            questionDTO.setItem(questionItemsList);
-            list.add(questionDTO);
-        }
+        if (thisLinks.equals("2")) {
+            // 2.获取本套题所有的选择题
+            List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
+            List<QuestionDTO> list = new ArrayList<>();
+            for (QaQuestionList question : questionList) {
+                QuestionDTO questionDTO = new QuestionDTO();
+                questionDTO.setId(question.getId());
+                questionDTO.setAnswer(question.getAnswer());
+                questionDTO.setQuestionTitle(question.getQuestionTitle());
+                questionDTO.setQuestionType(question.getQuestionType());
+                questionDTO.setThisNumber(question.getThisNumber());
+                // 3.查询 abcd
+                List<QaQuestionItems> questionItemsList = questionItemsService.getQuestionItemsList(question.getId());
+                questionDTO.setItem(questionItemsList);
 
-        model.addAttribute("list", list);
-        return ANSWER;
+                list.add(questionDTO);
+            }
+            model.addAttribute("list", list);
+            return ANSWER;
+        } else {
+            List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
+            model.addAttribute("list", questionList);
+            return SUBJECTIVE;
+        }
     }
 
     @PostMapping("/answer")
@@ -121,7 +127,7 @@ public class AnswerController {
         ResultUtil resultUtil = questionReplyService.insertQaQuestionReply(list);
         // 6. 如果答题成功 ，将本套题的状态改为是
         if (resultUtil.getStatus() == 200) {
-            Boolean b = countItemsService.updateIsEnable(gomeUser.getUserName(),"2");
+            Boolean b = countItemsService.updateIsEnable(gomeUser.getUserName(), "2");
             if (!b) {
                 return ResultUtil.build(ANSWER_UPDATE_USERNAME_ERROR.getStatus(), ANSWER_UPDATE_USERNAME_ERROR.getMsg());
             }

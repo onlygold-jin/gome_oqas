@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>第二环节·分数</title>
+    <link href="../static/favicon.ico" rel="shortcut icon">
     <link rel="stylesheet" href="../static/layui/css/layui.css">
 
 </head>
@@ -24,8 +25,22 @@
         //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
-            // 解析JSON串
-            var data = JSON.parse(msg.data);
+            if (msg.data !== "连接成功") {
+                // 解析JSON串
+                var data = JSON.parse(msg.data);
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
+                    // 跳转 第二环节选题卡页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
+                if (data.message.userSortnum === -1) {
+                    // 跳转到规则页面
+                    window.location.href = "/process?this_Links=" + data.message.thisLinks;
+                }
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 3) {
+                    // 跳转 第三环节选题卡页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
+            }
         };
         //关闭事件
         socket.onclose = function () {
