@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>演讲页面</title>
     <link rel="stylesheet" href="../static/layui/css/layui.css">
-    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="../static/css/speech.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/speech.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="home" class="header">
@@ -16,7 +16,7 @@
 
             <div class="banner-info">
                 <div class="col-md-7 header-right">
-                    <h1>Hi !</h1>
+                    <h1 id="test"></h1>
                     <h6 th:text="${'当前为第'+gomeUser.competitionOrder+'位参赛选手'}"></h6>
                     <ul class="address">
 
@@ -55,9 +55,9 @@
                 </div>
                 <div class="col-md-5 header-left">
                     <img th:src="${gomeUser.photoUrl}" alt="">
-<!--                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597315971848&di=dd97a2dabb683b3ed2454180315a9505&imgtype=0&src=http%3A%2F%2Fa1.att.hudong.com%2F62%2F02%2F01300542526392139955025309984.jpg" alt="">-->
+                    <!--                    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597315971848&di=dd97a2dabb683b3ed2454180315a9505&imgtype=0&src=http%3A%2F%2Fa1.att.hudong.com%2F62%2F02%2F01300542526392139955025309984.jpg" alt="">-->
                 </div>
-                <div class="clearfix"> </div>
+                <div class="clearfix"></div>
 
             </div>
         </div>
@@ -70,8 +70,31 @@
 <script>
     ;!function () {
         var layer = layui.layer,
-            form = layui.form;
-        layer.msg("");
+            form = layui.form,
+            $ = layui.$,
+            util = layui.util;
+        // 倒计时
+        //1. js获取当bai前时间
+        var date = new Date();
+        var min = date.getMinutes();
+        //3. 设置当前时间+5分钟：把zhi当前分钟数+5后的值重新设置为date对象的分钟数
+        date.setMinutes(min + 5);
+        // 设置开始时间和结束时间
+        var endTime = date.getTime();
+        var nowDate = new Date().getTime();
+        // 1.开始时间是当前时间，结束时间是数据库的时间*5分钟
+        util.countdown(endTime, nowDate, function (date, nowDate, timer) {
+            // 1. 如果加的五分钟小于当前时间
+            var str = date[2] + '分' + date[3] + '秒';
+            layui.$('#test').html('倒计时：' + str);
+            // 如果结束时间小于或等于当前时间 弹出框
+            if (endTime - nowDate == 5000) {
+                $("#test").attr("style", "color:red").html('倒计时：' + str);
+            } else if (endTime <= nowDate) {
+                $("#test").attr("style", "color:red").html('演讲完毕！等待下一位参赛者演讲');
+            }
+        });
+
         //连接到websocket
         var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
         var socket = new WebSocket(webSocketUrl);
@@ -81,6 +104,14 @@
             console.log(msg.data);
             // 解析JSON串
             var data = JSON.parse(msg.data);
+            if (data.message.userSortnum !== -1 && data.message.thisLinks === 1) {
+                // 跳转到演讲页面
+                window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+            }
+            if (data.message.userSortnum === -1 && data.message.thisLinks === 2) {
+                // 跳转到选题页面 按钮为灰色
+                window.location.href = "/topic?userSortnum=" + data.message.userSortnum;
+            }
 
         };
         //关闭事件

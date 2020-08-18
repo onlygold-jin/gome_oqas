@@ -109,43 +109,4 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
         }
         return true;
     }
-
-    /**
-     * 选中题的开始时间是否为空
-     *
-     * @param userName
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
-    public ResultUtil getStartTimeTONull(String userName, Date date, Integer num) {
-        QaCountItemsExample example = new QaCountItemsExample();
-        QaCountItemsExample.Criteria criteria = example.createCriteria();
-        // 1.查询当前用户选中的题，的开始时间是否为空
-        criteria.andRespondentEqualTo(userName);
-        criteria.andStartTimeIsNull();
-        criteria.andThisLinksEqualTo(num.toString());
-        List<QaCountItems> list = qaCountItemsMapper.selectByExample(example);
-        if (!list.isEmpty()) {
-            for (QaCountItems countItems : list) {
-                // 1.1 如果时间为空则填如当前传过来的时间
-                countItems.setStartTime(date);
-                qaCountItemsMapper.updateByPrimaryKey(countItems);
-                return ResultUtil.ok(date);
-            }
-        } else {
-            // 1.2 如果时间不为空则返回 空中的时间
-            QaCountItemsExample example1 = new QaCountItemsExample();
-            QaCountItemsExample.Criteria criteria1 = example.createCriteria();
-            criteria1.andRespondentEqualTo(userName);
-            criteria1.andThisLinksEqualTo(num.toString());
-            List<QaCountItems> list1 = qaCountItemsMapper.selectByExample(example1);
-            if (!list1.isEmpty()) {
-                for (QaCountItems qaCountItems : list1) {
-                    return ResultUtil.ok(qaCountItems.getStartTime());
-                }
-            }
-        }
-        return ResultUtil.build(START_TIME_ERROR.getStatus(), START_TIME_ERROR.getMsg());
-    }
 }

@@ -17,7 +17,6 @@
     ;!function () {
         var layer = layui.layer,
             form = layui.form;
-        layer.msg("");
         //连接到websocket
         var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
         var socket = new WebSocket(webSocketUrl);

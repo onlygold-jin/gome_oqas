@@ -27,18 +27,31 @@ public class TopicController {
     private QaCountItemsService qaCountItemsService;
 
     @GetMapping("/topic")
-    public String toTopic(HttpServletRequest request, Model model) {
+    public String toTopic(@RequestParam Integer userSortnum, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
-        // 1.查询当前用户是否有选中题
-        Integer integer = qaCountItemsService.selectThisNumber(gomeUser.getUserName());
-        if (integer != null) {
-            // 第二环节 答题页
-            return "redirect:/"+ANSWER;
+        if (userSortnum != -1) {
+            // 3. 通过号查询用户，如果用户和登录用户相等
+            if (gomeUser.getCompetitionOrder().equals(userSortnum)) {
+                model.addAttribute("disable", "否");
+            }else{
+                model.addAttribute("disable", "是");
+            }
+            // 1.查询当前用户是否有选中题
+            Integer integer = qaCountItemsService.selectThisNumber(gomeUser.getUserName());
+            if (integer != null) {
+                // 第二环节 答题页
+                return "redirect:/" + ANSWER;
+            }
+            // 2.没有选中的题
+            List<QaCountItems> countList = qaCountItemsService.getCountList();
+            model.addAttribute("list", countList);
+        } else {
+            // 查询所有的题
+            List<QaCountItems> countList = qaCountItemsService.getCountList();
+            model.addAttribute("list", countList);
+            model.addAttribute("disable", "是");
         }
-        // 2.没有选中的题
-        List<QaCountItems> countList = qaCountItemsService.getCountList();
-        model.addAttribute("list", countList);
         return TOPIC;
     }
 }
