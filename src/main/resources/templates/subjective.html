@@ -109,6 +109,9 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
+                if(data.message.thisLinks===3&&data.message.userSortnum!==-1){
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
             }
         };
         //关闭事件

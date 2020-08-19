@@ -1,23 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>首页</title>
+    <meta charset="utf-8">
+    <title>国美-第五届美财之星总决赛</title>
     <link href="../static/favicon.ico" rel="shortcut icon">
-    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all"/>
 
+
+    <style>
+        html {
+            background: url(static/images/background.gif);
+            background-size: 100%;
+        }
+
+        body {
+
+
+        }
+
+        .mydiv {
+            color: #FFB800;
+            font-weight: bold;
+            text-align: center;
+            font-size: 40px;
+            margin: 15% auto;
+
+
+        }
+    </style>
 </head>
 <body>
-<div>
-    <h1>这是首页</h1>
+<div class="mydiv ">
+    <h1 id="_id1" class="title_1 layui-anim layui-anim-up">第五届美财之星</h1>
+    <h1 id="_id2" class="title_2 layui-anim layui-anim-up">全国总决赛</h1>
 </div>
+
+
 </body>
-<script src="../static/js/jquery-3.3.1.min.js"></script>
+
 <script src="../static/layui/layui.all.js"></script>
+
 <script>
     ;!function () {
-        var layer = layui.layer,
-            form = layui.form;
         //连接到websocket
         var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
         var socket = new WebSocket(webSocketUrl);
@@ -25,12 +49,21 @@
         //获得消息事件
         socket.onmessage = function (msg) {
             console.log(msg.data);
-            if (msg.data !== "连接成功") {
-                // 解析JSON串
+            //解析json字符串
+            if (msg.data!="连接成功") {
+
+
                 var data = JSON.parse(msg.data);
-                if (data.message.userSortnum === -1) {
-                    // 跳转到规则页面
-                    window.location.href = "/process?this_Links=" + data.message.thisLinks;
+                console.log(data);
+                if (data.message.sortNum === 2) {
+                    console.log("播放开场音乐");
+                } else if (data.message.sortNum === 3) {
+                    console.log("关闭背景音乐并播放视频")
+                } else if (data.message.sortNum === 4) {
+                    console.log("方总讲话");
+                } else if (data.message.sortNum === 5) {
+                    console.log("宣读比赛流程");
+                    window.location.href = "/process/?this_Links=" + data.message.thisLinks;
                 }
             }
         };
@@ -45,4 +78,5 @@
         }
     }();
 </script>
+
 </html>

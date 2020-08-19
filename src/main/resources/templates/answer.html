@@ -127,7 +127,7 @@
                 if (result.status == 200) {
                     // 等待页面
                     socket.send('{"toUserId":"publicscreen","message":{"thisLinks":"[(${session.user.competitionOrder})]"}}');
-                    window.location.href = "wait.html";
+                    window.location.href = "/wait";
                 } else {
                     alert(result.msg);
                 }
@@ -176,7 +176,7 @@
                         if (result.status == 200) {
                             // 等待页面
                             socket.send('{"toUserId":"publicscreen","message":{"thisLinks":"[(${session.user.competitionOrder})]"}}');
-                            window.location.href = "wait.html";
+                            window.location.href = "/wait";
                         } else {
                             alert(result.msg);
                         }
