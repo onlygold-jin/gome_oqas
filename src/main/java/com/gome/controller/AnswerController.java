@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import java.text.ParseException;
 import java.util.*;
 
 import static com.gome.constant.GomeConstant.*;
@@ -77,10 +75,17 @@ public class AnswerController {
             }
             model.addAttribute("list", list);
             return ANSWER;
-        } else {
+        } else if (thisLinks.equals("3")) {
             List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
             model.addAttribute("list", questionList);
             return SUBJECTIVE;
+        } else if (thisLinks.equals("4")) {
+            // 跳转到
+            List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
+            model.addAttribute("list", questionList);
+            return ARGUE;
+        } else {
+            return WAIT;
         }
     }
 
@@ -143,7 +148,7 @@ public class AnswerController {
     }
 
     @GetMapping("/wait")
-    public String to_Wait(){
-        return "wait";
+    public String to_Wait() {
+        return WAIT;
     }
 }

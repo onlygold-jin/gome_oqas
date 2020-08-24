@@ -24,7 +24,6 @@ public class LoginConfig implements WebMvcConfigurer {
         registration.excludePathPatterns(
                 "/",
                 "/static/**",
-                "/static/layui/**",
                 "/login-ui",
                 "/login",
                 "/update-user"

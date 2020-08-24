@@ -47,4 +47,8 @@ public interface GomeConstant {
      * 等待页面
      */
     String WAIT = "wait";
+    /**
+     * 页面
+     */
+    String ARGUE = "argue";
 }

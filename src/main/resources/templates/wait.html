@@ -36,6 +36,10 @@
                     // 跳转 第三环节选题卡页面
                     window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
                 }
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 4) {
+                    // 跳转 第四环节选题卡页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
             }
         };
         //关闭事件

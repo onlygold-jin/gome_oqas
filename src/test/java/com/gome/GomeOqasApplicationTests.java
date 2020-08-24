@@ -16,7 +16,7 @@ class GomeOqasApplicationTests {
 
     @Test
     void contextLoads() {
-        try{
+        /*try{
             List<String> warnings = new ArrayList<String>();
             boolean overwrite = true;
             File configFile = new File("./src/main/resources/generatorConfig.xml");
@@ -27,7 +27,7 @@ class GomeOqasApplicationTests {
             myBatisGenerator.generate(null);
         }catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
     }
 
 }
