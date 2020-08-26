@@ -56,7 +56,7 @@
 <script src="../static/js/jquery-3.3.1.min.js"></script>
 <script src="../static/layui/layui.all.js"></script>
 <script>
-    var webSocketUrl = "ws://101.200.43.36:8088/websocket/[(${session.user.userName})]";
+    var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
     var socket = new WebSocket(webSocketUrl);
     ;!function () {
         var layer = layui.layer,
@@ -70,10 +70,10 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
-                if (data.message.userSortnum !== -1 && 1 > data.message.thisLinks <= 5) {
+               /* if (data.message.userSortnum !== -1 && 1 > data.message.thisLinks <= 5) {
                     // 跳转 选题卡页面
                     window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
-                }
+                }*/
             }
 
         };

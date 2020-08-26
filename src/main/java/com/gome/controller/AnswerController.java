@@ -147,8 +147,5 @@ public class AnswerController {
         return result;
     }
 
-    @GetMapping("/wait")
-    public String to_Wait() {
-        return WAIT;
-    }
+
 }

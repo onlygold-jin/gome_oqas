@@ -67,6 +67,10 @@
 <script src="../static/bootstrap/js/bootstrap.min.js"></script>
 <script src="../static/layui/layui.all.js"></script>
 <script>
+    //连接到websocket
+    var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+    var socket = new WebSocket(webSocketUrl);
+
     ;!function () {
         var layer = layui.layer,
             form = layui.form,
@@ -83,6 +87,7 @@
         var nowDate = new Date().getTime();
         // 1.开始时间是当前时间，结束时间是数据库的时间*5分钟
         util.countdown(endTime, nowDate, function (date, nowDate, timer) {
+            //debugger;
             // 1. 如果加的五分钟小于当前时间
             var str = date[2] + '分' + date[3] + '秒';
             layui.$('#test').html('倒计时：' + str);
@@ -90,13 +95,11 @@
             if (endTime - nowDate == 5000) {
                 $("#test").attr("style", "color:red").html('倒计时：' + str);
             } else if (endTime <= nowDate) {
-                $("#test").attr("style", "color:red").html('演讲完毕！等待下一位参赛者演讲');
+                $("#test").attr("style", "color:red").html('演讲完毕！等待进入选题界面');
             }
         });
 
-        //连接到websocket
-        var webSocketUrl = "ws://101.200.43.36:8088/websocket/[(${session.user.userName})]";
-        var socket = new WebSocket(webSocketUrl);
+
 
         //获得消息事件
         socket.onmessage = function (msg) {
@@ -108,9 +111,17 @@
                     // 跳转到演讲页面
                     window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
                 }
-                if (data.message.userSortnum === -1 && data.message.thisLinks === 2) {
-                    // 跳转到选题页面 按钮为灰色
-                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
+
+                    // 指定用户跳转到选题界面
+                    if([(${session.user.competitionOrder})]===data.message.userSortnum){
+                        window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+
+                    }else{
+                        //其他用户，不跳转页面
+
+                        $("#test").attr("style", "color:red").html('演讲完毕！等待'+data.message.userSortnum+"号选手答题！");
+                    }
                 }
             }
         };
@@ -122,6 +133,7 @@
         //发生了错误事件
         socket.onerror = function () {
             console.log("websocket发生了错误");
+            socket = new WebSocket(webSocketUrl);
         }
     }();
 </script>

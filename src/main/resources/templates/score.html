@@ -19,7 +19,7 @@
         var layer = layui.layer,
             form = layui.form;
         //连接到websocket
-        var webSocketUrl = "ws://101.200.43.36:8088/websocket/[(${session.user.userName})]";
+        var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
         var socket = new WebSocket(webSocketUrl);
 
         //获得消息事件
@@ -28,10 +28,17 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
-                if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
+                if(data.message.thisLinks===1&&data.message.userSortnum!==-1){
+                    //跳转至第一环节
+                    console.log("跳转至第一环节");
+                    window.location.href="/speech?userSortnum="+data.message.userSortnum+"&thisLinks="+data.message.thisLinks;
+                }
+
+
+                /*if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
                     // 跳转 第二环节选题卡页面
                     window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
-                }
+                }*/
                 if (data.message.userSortnum === -1) {
                     // 跳转到规则页面
                     window.location.href = "/process?this_Links=" + data.message.thisLinks;
