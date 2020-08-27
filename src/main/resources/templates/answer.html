@@ -120,6 +120,10 @@
             $ = layui.$,
             util = layui.util;
 
+
+
+
+
         //监听提交
         form.on('submit(formDemo)', function (data) {
             var fields = $(data.form).serialize();
@@ -175,7 +179,7 @@
                     $.post("/answer", $("#my-form").serialize(), function (result) {
                         if (result.status == 200) {
                             // 等待页面
-                            socket.send('{"toUserId":"publicscreen","message":{"thisLinks":"[(${session.user.competitionOrder})]"}}');
+                            socket.send('{"toUserId":"publicscreen","message":{"userSortnum":"[(${session.user.competitionOrder})]","thisLinks":"2"}}');
                             window.location.href = "/score";
                         } else {
                             alert(result.msg);

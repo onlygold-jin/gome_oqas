@@ -13,8 +13,18 @@ import static com.gome.constant.GomeConstant.*;
  */
 @Controller
 public class ScoreController {
+
+    /**
+     * 计算得分，并将
+     * @return
+     */
+
     @GetMapping("/score")
     public String toScore() {
+
+
         return SCORE;
     }
+
+
 }
