@@ -31,7 +31,6 @@ public class QaCountItemsServiceImpl implements QaCountItemsService {
         System.err.println(new Date());
         QaCountItemsExample example = new QaCountItemsExample();
         QaCountItemsExample.Criteria criteria = example.createCriteria();
-        criteria.andIsEnableLike("否");
         criteria.andRespondentIsNull();
         criteria.andThisLinksEqualTo(thisLinks);
         return qaCountItemsMapper.selectByExample(example);

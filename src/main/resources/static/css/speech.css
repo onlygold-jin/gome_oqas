@@ -9,6 +9,7 @@ html, body{
     font-family: 'Open Sans', sans-serif;
     font-size: 100%;
     background: #1B242F;
+    overflow-y: hidden;
 }
 body a{
     transition:0.5s all;

@@ -38,14 +38,15 @@
         <h1 th:if="${thisLinks=='2'}">美财之星总决赛—第二环节·才思敏捷</h1>
         <h1 th:if="${thisLinks=='3'}">美财之星总决赛—第三环节·场景再现</h1>
         <h1 th:if="${thisLinks=='4'}">美财之星总决赛—第四环节·群英舌战</h1>
-        <span th:text="'当前答题人：'+${session.user.userPersonsName}"></span>
+        <span th:text="'当前'+${userSortnum}+'号选手正在选题！'"></span>
     </div>
 
     <div th:each="r:${list}" class="layui-col-md3">
 
+        <!---->
         <button th:if="${disable=='否'}" th:onclick="a([[${r.thisNumber}]],[[${r.thisLinks}]]);" class="layui-btn">
-        <span th:text="${'第'+r.thisNumber+'套题'}"></span>
-    </button>
+            <span th:text="${'第'+r.thisNumber+'套题'}"></span>
+        </button>
         <button th:if="${disable=='是'}"
                 class="layui-btn layui-btn-disabled ">
             <span th:text="${'第'+r.thisNumber+'套题'}"></span>
@@ -70,10 +71,10 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
-               /* if (data.message.userSortnum !== -1 && 1 > data.message.thisLinks <= 5) {
-                    // 跳转 选题卡页面
-                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
-                }*/
+                /* if (data.message.userSortnum !== -1 && 1 > data.message.thisLinks <= 5) {
+                     // 跳转 选题卡页面
+                     window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                 }*/
             }
 
         };
@@ -90,12 +91,23 @@
 
     }();
 
+    /**
+     * 选题事件
+     * @param thisNumber 当前题号
+     * @param thisLinks 当前环节
+     */
     function a(thisNumber, thisLinks) {
-        console.log(thisNumber);
-        console.log(thisLinks);
-        // 跳转连接
-        socket.send('{"toUserId":"publicscreen","message":{"thisLinks":"' + thisLinks + '","thisNumber":"' + thisNumber + '"}}');
-        window.location.href = "/answer?thisNumber=" + thisNumber + "&thisLinks=" + thisLinks;
+        //选题效果
+
+        console.log("我是酷酷的特效");
+        // 跳转连接 所有端均进入答题页面
+        socket.send('{"toUserId":"all","message":{"thisLinks":"' + thisLinks + '","thisNumber":"' + thisNumber + '"}}');
+        //延迟3秒进入连接
+
+        setTimeout(function(){
+            window.location.href = "/answer?thisNumber=" + thisNumber + "&thisLinks=" + thisLinks;
+        },3000);
+
 
     }
 </script>

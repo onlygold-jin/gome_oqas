@@ -26,6 +26,14 @@ public class TopicController {
     @Autowired
     private QaCountItemsService qaCountItemsService;
 
+    /**
+     *
+     * @param userSortnum 为当前选题人的编号
+     * @param thisLinks 当前环节
+     * @param request
+     * @param model
+     * @return
+     */
     @GetMapping("/topic")
     public String toTopic(@RequestParam Integer userSortnum, @RequestParam String thisLinks, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -39,11 +47,8 @@ public class TopicController {
             }
             // 1.查询当前用户是否有选中题
             Integer integer = qaCountItemsService.selectThisNumber(gomeUser.getUserName(), thisLinks);
-            if (integer != null) {
-                // 等待页面
-                return "redirect:/" + WAIT;
-            }
-            // 2.没有选中的题
+
+            // 2、获取所有的选题编号
             List<QaCountItems> countList = qaCountItemsService.getCountList(thisLinks);
             model.addAttribute("list", countList);
         } else {
@@ -52,6 +57,7 @@ public class TopicController {
             model.addAttribute("list", countList);
             model.addAttribute("disable", "是");
         }
+        model.addAttribute("userSortnum",userSortnum);
         model.addAttribute("thisLinks", thisLinks);
         return TOPIC;
     }

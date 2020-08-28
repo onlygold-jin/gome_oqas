@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="home" class="header">
-    <div class="container">
+    <div id="container" class="container">
         <!-- top-hedader -->
         <div class="top-header">
             <!-- /logo -->
@@ -48,6 +48,10 @@
                             <ul class="address-text">
                                 <li><b>视频展示</b></li>
                                 <li th:text="${gomeUser.isSubmitRobot}"></li>
+                                <li th:if="${gomeUser.competitionOrder eq session.user.competitionOrder and gomeUser.isSubmitRobot eq '是'}">
+                                    <button id="btn_pl" type="button" th:onclick="btn_play()" class="layui-btn">点击播放
+                                    </button>
+                                </li>
                             </ul>
                         </li>
 
@@ -58,8 +62,15 @@
                 </div>
                 <div class="clearfix"></div>
 
+
             </div>
         </div>
+    </div>
+    <!--播放视频-->
+    <div id="play_mv" style="display: none;">
+        <video id="play_mv_video" type="video/mp4">
+
+        </video>
     </div>
 </div>
 </body>
@@ -85,6 +96,7 @@
         // 设置开始时间和结束时间
         var endTime = date.getTime();
         var nowDate = new Date().getTime();
+        var last_DATE = 5000;
         // 1.开始时间是当前时间，结束时间是数据库的时间*5分钟
         util.countdown(endTime, nowDate, function (date, nowDate, timer) {
             //debugger;
@@ -92,13 +104,12 @@
             var str = date[2] + '分' + date[3] + '秒';
             layui.$('#test').html('倒计时：' + str);
             // 如果结束时间小于或等于当前时间 弹出框
-            if (endTime - nowDate == 5000) {
+            if (endTime - nowDate == last_DATE) {
                 $("#test").attr("style", "color:red").html('倒计时：' + str);
             } else if (endTime <= nowDate) {
-                $("#test").attr("style", "color:red").html('演讲完毕！等待进入选题界面');
+                $("#test").attr("style", "color:red").html("演讲完毕，等待[(${gomeUser.competitionOrder})]号选手进行第二环节作答！");
             }
         });
-
 
 
         //获得消息事件
@@ -107,21 +118,40 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
-                if (data.message.userSortnum !== -1 && data.message.thisLinks === 1) {
-                    // 跳转到演讲页面
-                    window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
-                }
-                if (data.message.userSortnum !== -1 && data.message.thisLinks === 2) {
+                //第一环节
+                if (data.message.userSortnum != -1 && data.message.thisLinks == 1) {
+                    //获取第一环节，视频播放报文
+                    if (data.message.title == "play_mv" && data.toUserId == "all") {
+                        console.log("第二环节，视频播放");
+                        $('#container').hide("slow");
+                        $('#play_mv').show("slow");
+                        console.log(data.message.mv_url);
+                        var play_mv_video = document.getElementById("play_mv_video");
+                        play_mv_video.src = data.message.mv_url;
+                        play_mv_video.width = $(window).width();
+                        play_mv_video.height = $(window).height();
 
-                    // 指定用户跳转到选题界面
-                    if([(${session.user.competitionOrder})]===data.message.userSortnum){
-                        window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                        //延迟两秒播放
+                        setTimeout(function () {
+                            play_mv_video.play();
+                        }, 2000);
+                        //延迟两秒关闭
+                        setTimeout(function () {
+                            play_mv_video.onended = function () {
+                                $('#container').show("slow");
+                                $('#play_mv').hide("slow");
+                            }
+                        }, 2000)
 
-                    }else{
-                        //其他用户，不跳转页面
-
-                        $("#test").attr("style", "color:red").html('演讲完毕！等待'+data.message.userSortnum+"号选手答题！");
+                    } else {
+                        window.location.href = "/speech?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
                     }
+                }
+                //第二环节
+                if (data.message.userSortnum != -1 && data.message.thisLinks == 2) {
+                    //开启第二环节，跳转到选题页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+
                 }
             }
         };
@@ -136,5 +166,13 @@
             socket = new WebSocket(webSocketUrl);
         }
     }();
+
+
+    //点击播放视频
+    function btn_play() {
+        //向公屏端发送播放视频报文
+        socket.send('{"toUserId":"all","message":{"title":"play_mv","mv_url":"[(${gomeUser.videoUrl})]","thisLinks":"1","userSortnum":"[(${gomeUser.competitionOrder})]"}}');
+    }
+
 </script>
 </html>
