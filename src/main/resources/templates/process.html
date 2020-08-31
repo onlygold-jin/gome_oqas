@@ -6,7 +6,11 @@
     <link href="../static/favicon.ico" rel="shortcut icon">
     <link rel="stylesheet" href="../static/css/layui.css">
 
-
+    <style>
+        body{
+            background-color: #00a78e;
+        }
+    </style>
 </head>
 <body>
 <div>
@@ -44,6 +48,7 @@
                 }*/
                 if (data.message.userSortnum === 1 && data.message.thisLinks === 3) {
                     console.log("第三环节")
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
                 }
                 if (data.message.userSortnum === 1 && data.message.thisLinks === 4) {
                     console.log("第四环节")

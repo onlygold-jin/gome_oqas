@@ -3,6 +3,8 @@ package com.gome.service;
 import com.gome.pojo.GomeUser;
 import com.gome.util.ResultUtil;
 
+import java.util.List;
+
 /**
  * @Description:
  * @Author: WangJinYue
@@ -16,4 +18,6 @@ public interface GomeUserService {
     GomeUser login(String username, String password);
     // 通过选手号，查询用户
     GomeUser selectAll(Integer competitionOrder);
+    // 查询用户 根据用户类型
+    List<GomeUser> select(String userStatu);
 }

@@ -15,6 +15,8 @@ public class JudgesScores {
 
     private String thisLinks;
 
+    private Integer evaluationId;
+
     public Integer getId() {
         return id;
     }
@@ -69,5 +71,28 @@ public class JudgesScores {
 
     public void setThisLinks(String thisLinks) {
         this.thisLinks = thisLinks == null ? null : thisLinks.trim();
+    }
+
+    public Integer getEvaluationId() {
+        return evaluationId;
+    }
+
+    public void setEvaluationId(Integer evaluationId) {
+        this.evaluationId = evaluationId;
+    }
+
+
+    @Override
+    public String toString() {
+        return "JudgesScores{" +
+                "id=" + id +
+                ", judgesId=" + judgesId +
+                ", judgesName='" + judgesName + '\'' +
+                ", score=" + score +
+                ", playerId=" + playerId +
+                ", playerName='" + playerName + '\'' +
+                ", thisLinks='" + thisLinks + '\'' +
+                ", evaluationId=" + evaluationId +
+                '}';
     }
 }

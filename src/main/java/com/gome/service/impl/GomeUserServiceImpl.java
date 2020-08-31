@@ -82,4 +82,17 @@ public class GomeUserServiceImpl implements GomeUserService {
         }
         return null;
     }
+
+    @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public List<GomeUser> select(String userStatu) {
+        GomeUserExample example = new GomeUserExample();
+        GomeUserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserStatuEqualTo(userStatu);
+        List<GomeUser> list = gomeUserMapper.selectByExample(example);
+        if (list.size() != 0) {
+            return list;
+        }
+        return null;
+    }
 }

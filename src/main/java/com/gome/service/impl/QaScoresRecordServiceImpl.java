@@ -2,10 +2,13 @@ package com.gome.service.impl;
 
 import com.gome.mapper.QaScoresRecordMapper;
 import com.gome.pojo.QaScoresRecord;
+import com.gome.pojo.QaScoresRecordExample;
 import com.gome.service.QaScoresRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -30,5 +33,14 @@ public class QaScoresRecordServiceImpl implements QaScoresRecordService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    @Transactional(rollbackFor = {RuntimeException.class, Error.class})
+    public List<QaScoresRecord> findAllByUser(String userName) {
+        QaScoresRecordExample example = new QaScoresRecordExample();
+        QaScoresRecordExample.Criteria criteria = example.createCriteria();
+        criteria.andUserNameEqualTo(userName);
+        return scoresRecordMapper.selectByExample(example);
     }
 }

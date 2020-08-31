@@ -51,6 +51,7 @@
                 class="layui-btn layui-btn-disabled ">
             <span th:text="${'第'+r.thisNumber+'套题'}"></span>
         </button>
+
     </div>
 </div>
 </body>
@@ -71,10 +72,12 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
-                /* if (data.message.userSortnum !== -1 && 1 > data.message.thisLinks <= 5) {
-                     // 跳转 选题卡页面
-                     window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
-                 }*/
+                //接收报文，跳转至第二环节
+                if(data.message.thisLinks=='2'&&data.toUserId=='all'){
+
+                    //接收报文，其他参赛选手进入到当前参赛选手的选题页面
+                    window.location.href = "/answer?thisNumber=" + data.message.thisNumber + "&thisLinks=" + data.message.thisLinks+"&competitionOrder="+data.message.competitionOrder;
+                }
             }
 
         };
@@ -100,12 +103,12 @@
         //选题效果
 
         console.log("我是酷酷的特效");
-        // 跳转连接 所有端均进入答题页面
-        socket.send('{"toUserId":"all","message":{"thisLinks":"' + thisLinks + '","thisNumber":"' + thisNumber + '"}}');
+        // 跳转连接 向所有端进行报文发送
+        socket.send('{"toUserId":"all","message":{"thisLinks":"' + thisLinks + '","thisNumber":"' + thisNumber + '","competitionOrder":"[(${session.user.competitionOrder})]"}}');
         //延迟3秒进入连接
 
         setTimeout(function(){
-            window.location.href = "/answer?thisNumber=" + thisNumber + "&thisLinks=" + thisLinks;
+            window.location.href = "/answer?thisNumber=" + thisNumber + "&thisLinks=" + thisLinks+"&competitionOrder=[(${session.user.competitionOrder})]";
         },3000);
 
 

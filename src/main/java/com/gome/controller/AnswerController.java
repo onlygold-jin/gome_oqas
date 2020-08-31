@@ -38,25 +38,19 @@ public class AnswerController {
     private QaQuestionReplyService questionReplyService;
     @Autowired
     private QaScoresRecordService scoresRecordService;
+    @Autowired
+    private GomeUserService gomeUserService;
 
     @GetMapping("/answer")
-    public String answer(@RequestParam Integer thisNumber, @RequestParam String thisLinks, HttpServletRequest request, Model model) {
+    public String answer(@RequestParam Integer thisNumber,@RequestParam Integer competitionOrder , @RequestParam String thisLinks, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
-        //1.如果之前已经有选中的题
-        Integer integer = countItemsService.selectThisNumber(gomeUser.getUserName(), thisLinks);
-        if (integer != null) {
-            thisNumber = integer;
-        } else {
-            // 本套题已经被当前登陆人选中
-            boolean b = countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName(), thisLinks);
-            if (!b) {
-                // 选题卡页面
-                return TOPIC;
-            }
-        }
-
         if (thisLinks.equals("2")) {
+            if(gomeUser.getCompetitionOrder().equals(competitionOrder)){
+                //如果是当前选题用户，更改题库列表信息
+                countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName(), thisLinks);
+            }
+            //当前为第二环节
             // 2.获取本套题所有的选择题
             List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
             List<QuestionDTO> list = new ArrayList<>();
@@ -74,15 +68,24 @@ public class AnswerController {
                 list.add(questionDTO);
             }
             model.addAttribute("list", list);
+            //答题人的序号
+            model.addAttribute("competitionOrder",competitionOrder);
+            model.addAttribute("thisNumber",thisLinks);
             return ANSWER;
         } else if (thisLinks.equals("3")) {
+            //第三环节
             List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
             model.addAttribute("list", questionList);
             return SUBJECTIVE;
         } else if (thisLinks.equals("4")) {
+            //第四环节
             // 跳转到
             List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
             model.addAttribute("list", questionList);
+            // 查询所有选手
+            List<GomeUser> userList = gomeUserService.select("1");
+            model.addAttribute("userList", userList);
+
             return ARGUE;
         } else {
             return WAIT;

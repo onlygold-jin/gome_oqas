@@ -23,7 +23,7 @@ body h1,h2,h3,h4,h5,h6{
 }
 /*-- header --*/
 #home {
-    background: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1597315971848&di=dd97a2dabb683b3ed2454180315a9505&imgtype=0&src=http%3A%2F%2Fa1.att.hudong.com%2F62%2F02%2F01300542526392139955025309984.jpg") no-repeat center;
+    background: url("../images/speech_bg.jpg") no-repeat center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;

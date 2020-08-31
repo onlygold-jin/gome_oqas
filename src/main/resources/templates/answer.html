@@ -73,7 +73,7 @@
     <div id="test">考试时间：5分0秒</div><!--剩余时间-->
     <div class="layui-header">
         <h1>第五届美财之星全国总决赛</h1>
-        <span th:text="'当前答题人：'+${session.user.userPersonsName}"></span>
+        <span th:text="'当前'+${competitionOrder}+'号选手正在作答第'+${thisNumber}+'套题！'"></span>
     </div>
     <div>
         <form class="layui-form" id="my-form">
@@ -100,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn">
+            <div class="btn" th:if="${session.user.competitionOrder eq competitionOrder}">
                 <button class="layui-btn layui-btn-green" lay-submit lay-filter="formDemo">提交</button>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
@@ -129,9 +129,9 @@
             var fields = $(data.form).serialize();
             $.post("/answer", fields, function (result) {
                 if (result.status == 200) {
-                    // 等待页面
-                    socket.send('{"toUserId":"publicscreen","message":{"thisLinks":"[(${session.user.competitionOrder})]"}}');
-                    window.location.href = "/score";
+                    // 等待页面发送报文至所有端，已经答题完毕
+                    socket.send('{"toUserId":"all","message":{"title":"close_answer","thisLinks":"2","userSortnum":"[(${session.user.competitionOrder})]"}}');
+                    window.location.href = "/score?thisLinks=2&userSortnum=[(${session.user.competitionOrder})]";
                 } else {
                     alert(result.msg);
                 }
@@ -175,16 +175,19 @@
                 layui.$('#test').html('距离考试结束还有：' + str);
                 // 如果结束时间小于或等于当前时间 弹出框
                 if (endTime <= nowDate) {
-                    // 提交表单
-                    $.post("/answer", $("#my-form").serialize(), function (result) {
-                        if (result.status == 200) {
-                            // 等待页面
-                            socket.send('{"toUserId":"publicscreen","message":{"userSortnum":"[(${session.user.competitionOrder})]","thisLinks":"2"}}');
-                            window.location.href = "/score";
-                        } else {
-                            alert(result.msg);
-                        }
-                    }, "json");
+                    // 提交表单 只有答题人才会提交表单
+                    if("[(${session.user.competitionOrder})]"=="[(${competitionOrder})]"){
+                        $.post("/answer", $("#my-form").serialize(), function (result) {
+                            if (result.status == 200) {
+                                // 等待页面
+                                socket.send('{"toUserId":"all","message":{"title":"close_answer","thisLinks":"2","userSortnum":"[(${session.user.competitionOrder})]"}}');
+                                    window.location.href = "/score?thisLinks=2&userSortnum=[(${session.user.competitionOrder})]";
+                            } else {
+                                alert(result.msg);
+                            }
+                        }, "json");
+                    }
+
                 }
             });
         });
@@ -197,6 +200,13 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
+                //获取报文，跳转到得分页面
+                //第二环节
+                if(data.message.thisLinks=="2"){
+                    if(data.toUserId=="all"&&data.message.title=="close_answer"){
+                        window.location.href = "/score?thisLinks=2&userSortnum="+data.message.userSortnum;
+                    }
+                }
             }
 
         };

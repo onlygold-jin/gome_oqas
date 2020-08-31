@@ -2,11 +2,10 @@ package com.gome.mapper;
 
 import com.gome.pojo.JudgesScores;
 import com.gome.pojo.JudgesScoresExample;
-
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface JudgesScoresMapper {

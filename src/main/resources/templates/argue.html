@@ -5,6 +5,7 @@
     <title>第四环节·群英舌战</title>
     <link href="../static/favicon.ico" rel="shortcut icon">
     <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Open Sans', Helvetica, Arial, sans-serif;
@@ -53,11 +54,40 @@
             width: 30%;
             float: right;
         }
+
+        /* 选手头像*/
+        .test-img {
+            text-align: center;
+            background-color: #dff0d8;
+        }
+
+        .test-img img {
+            display: inline-block;
+            max-width: 100%;
+            width: 140px;
+            height: 140px;
+            padding: 4px;
+            line-height: 1.42857143;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            -webkit-transition: all .2s ease-in-out;
+            -o-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+        }
+
+        .test-span {
+            text-align: center;
+        }
+
+        .test-span:hover {
+            background-color: #dff0d8;
+        }
     </style>
 </head>
 <body>
 <div class="layui-container">
-    <div id="test">答题时间：10分0秒</div><!--剩余时间-->
+    <!--    <div id="test">答题时间：10分0秒</div>&lt;!&ndash;剩余时间&ndash;&gt;-->
     <div class="layui-header">
         <h1>第五届美财之星全国总决赛</h1>
         <span th:text="'当前答题人：'+${session.user.userPersonsName}"></span>
@@ -69,9 +99,24 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div th:each="r:${userList}" class="col-md-2 col-sm-2 col-xs-6">
+            <div class="test-img">
+                <img th:src="${r.photoUrl}">
+            </div>
+            <div class="test-span">
+                <!--放文字-->
+                <h4 th:text="${'选手'+r.competitionOrder}"></h4>
+                <h4 th:if="${r.competitionOrder} le 6">正方选手</h4>
+                <h4 th:if="${r.competitionOrder} gt 6">反方选手</h4>
+                <h4 th:classappend="test+${r.competitionOrder}">倒计时：0分0秒</h4>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script src="../static/js/jquery-3.3.1.min.js"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"></script>
 <script src="../static/layui/layui.all.js"></script>
 <script>
     ;!function () {
@@ -92,12 +137,7 @@
         util.countdown(endTime, nowDate, function (date, nowDate, timer) {
             // 1. 如果加的五分钟小于当前时间
             var str = date[2] + '分' + date[3] + '秒';
-            layui.$('#test').html('倒计时：' + str);
-            if (endTime - nowDate == 5000) {
-                $("#test").attr("style", "color:red").html('倒计时：' + str);
-            } else if (endTime <= nowDate) {
-                $("#test").attr("style", "color:red").html('答题完毕！等待评委评分！');
-            }
+            layui.$('.test').html('倒计时：' + str);
         });
 
         //连接到websocket
