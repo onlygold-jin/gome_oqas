@@ -43,7 +43,7 @@ public class QaQuestionListServiceImpl implements QaQuestionListService {
             criteria.andQuestionTypeEqualTo("4");
         }
         if (questionType.equals("5")) {
-            criteria.andQuestionTypeEqualTo("6");
+            criteria.andQuestionTypeEqualTo("5");
         }
         List<QaQuestionList> qaQuestionLists = questionListMapper.selectByExample(example);
         return qaQuestionLists;

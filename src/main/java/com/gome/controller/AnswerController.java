@@ -43,9 +43,11 @@ public class AnswerController {
 
     @GetMapping("/answer")
     public String answer(@RequestParam Integer thisNumber,@RequestParam Integer competitionOrder , @RequestParam String thisLinks, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
+        System.err.println(thisLinks+"++++++++++++++++++++++++++++++++++++++");
         if (thisLinks.equals("2")) {
+            System.out.println(2);
+            HttpSession session = request.getSession();
+            GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
             if(gomeUser.getCompetitionOrder().equals(competitionOrder)){
                 //如果是当前选题用户，更改题库列表信息
                 countItemsService.updateThisNumber(thisNumber, gomeUser.getUserName(), thisLinks);
@@ -73,21 +75,33 @@ public class AnswerController {
             model.addAttribute("thisNumber",thisLinks);
             return ANSWER;
         } else if (thisLinks.equals("3")) {
+            System.out.println(3);
             //第三环节
             List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
+            //获取当前答题人信息
+            GomeUser gomeUser  = gomeUserService.selectAll(competitionOrder);
             model.addAttribute("list", questionList);
-            return SUBJECTIVE;
-        } else if (thisLinks.equals("4")) {
-            //第四环节
-            // 跳转到
-            List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
-            model.addAttribute("list", questionList);
-            // 查询所有选手
-            List<GomeUser> userList = gomeUserService.select("1");
-            model.addAttribute("userList", userList);
 
-            return ARGUE;
+            //将当前答题人信息存入model
+            model.addAttribute("gomeUser",gomeUser);
+            model.addAttribute("competitionOrder",competitionOrder);
+            model.addAttribute("thisLinks",thisLinks);
+            return SUBJECTIVE;
+        } else if (thisLinks.equals("5")) {
+            System.out.println(5);
+            //第五环节
+            List<QaQuestionList> questionList = questionListService.getQuestionList(thisNumber, thisLinks);
+            //获取当前答题人信息
+            GomeUser gomeUser  = gomeUserService.selectAll(competitionOrder);
+            model.addAttribute("list", questionList);
+
+            //将当前答题人信息存入model
+            model.addAttribute("gomeUser",gomeUser);
+            model.addAttribute("competitionOrder",competitionOrder);
+            model.addAttribute("thisLinks",thisLinks);
+            return SUBJECTIVE;
         } else {
+            System.out.println(0);
             return WAIT;
         }
     }

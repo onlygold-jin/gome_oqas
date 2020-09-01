@@ -43,7 +43,8 @@
         var layer = layui.layer,
             form = layui.form;
         //连接到websocket
-        var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+        // var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+        var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
         var socket = new WebSocket(webSocketUrl);
 
         //获得消息事件
@@ -72,6 +73,11 @@
                     // 跳转 第三环节选题卡页面
                     window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
                 }
+                if (data.message.userSortnum !== -1 && data.message.thisLinks === 5) {
+                    // 跳转 第三环节选题卡页面
+                    window.location.href = "/topic?userSortnum=" + data.message.userSortnum + "&thisLinks=" + data.message.thisLinks;
+                }
+
             }
         };
         //关闭事件

@@ -79,7 +79,8 @@
 <script src="../static/layui/layui.all.js"></script>
 <script>
     //连接到websocket
-    var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+    // var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+    var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
     var socket = new WebSocket(webSocketUrl);
 
     ;!function () {
@@ -107,6 +108,7 @@
             if (endTime - nowDate == last_DATE) {
                 $("#test").attr("style", "color:red").html('倒计时：' + str);
             } else if (endTime <= nowDate) {
+                clearInterval(timer);
                 $("#test").attr("style", "color:red").html("演讲完毕，等待[(${gomeUser.competitionOrder})]号选手进行第二环节作答！");
             }
         });

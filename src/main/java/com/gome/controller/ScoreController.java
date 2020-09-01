@@ -50,18 +50,25 @@ public class ScoreController {
 
         HttpSession session = request.getSession();
         GomeUser gomeUser = (GomeUser) session.getAttribute(GomeConstant.USER);
+
+        List<JudgesScores> judgesScoresList =null;
+        Double scores=0.0;
+        String judges_name="";
+        //评委人数
+        int count=1;
+
         //第二环节
-        if(thisLinks.equals("2")){
+        if(thisLinks.equals('3')){
             //如果是当前用户
             if(gomeUser.getCompetitionOrder().equals(userSortnum)){
                 //查询第一环节，当前用户的得分
-                Double scores =0.0;
-                List<JudgesScores> judgesScoresList = judgesScoresService.findAllByPlayerId(gomeUser.getUserId(),"1");
+                scores =0.0;
+                judgesScoresList = judgesScoresService.findAllByPlayerId(gomeUser.getUserId(),"1");
                 //查询第二环节，当前用户的得分
                 List<QaScoresRecord>qaScoresRecordList = qaScoresRecordService.findAllByUser(gomeUser.getUserName());
+                //累加评委人数
+                count=1;
 
-                int count=1;//累加评委人数
-                String judges_name="";
                 //遍历第一环节和第二环节的得分，
                 if(judgesScoresList.size()>0){
                     judges_name = judgesScoresList.get(0).getJudgesName();
@@ -98,11 +105,46 @@ public class ScoreController {
 
             }
 
-            //查询成绩
-            List<FinalScore> finalScores = finalScoreService.findByAll();
-            model.addAttribute("finalScores",finalScores);
+
 
         }
+        //第三环节
+        if(thisLinks.equals('3')){
+            //如果是当前用户
+            if(gomeUser.getCompetitionOrder().equals(userSortnum)){
+                scores =0.0;
+                judgesScoresList = judgesScoresService.findAllByPlayerId(gomeUser.getUserId(),"3");
+
+                //遍历第三环节得分
+                if(judgesScoresList.size()>0){
+                    judges_name = judgesScoresList.get(0).getJudgesName();
+                }
+                for (JudgesScores judgesScores :judgesScoresList){
+                    scores+=(Double) judgesScores.getScore();
+                    if(!judges_name.equals(judgesScores.getJudgesName())){
+                        count++;
+                    }
+                    System.out.println(judgesScores.toString());
+                }
+                scores/=count;
+                FinalScore finalScore = new FinalScore();
+                finalScore.setThisLinks("3");
+                finalScore.setUserName(gomeUser.getUserName());
+                finalScore.setCompetitionOrder(gomeUser.getCompetitionOrder().toString());
+                finalScore.setUserPersonsName(gomeUser.getUserPersonsName());
+                finalScore.setFinalScore(scores);
+                if(finalScoreService.saveScore(finalScore)){
+                    System.out.println("添加成功");
+                }
+            }
+
+        }
+        if(thisLinks.equals('4')){
+
+        }
+        //查询成绩
+        List<FinalScore> finalScores = finalScoreService.findByAll();
+        model.addAttribute("finalScores",finalScores);
         return "score";
     }
 

@@ -112,7 +112,8 @@
 <script src="../static/layui/layui.all.js"></script>
 <script>
     //连接到websocket
-    var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+    // var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+    var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
     var socket = new WebSocket(webSocketUrl);
     ;!function () {
         var layer = layui.layer,

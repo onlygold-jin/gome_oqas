@@ -38,6 +38,7 @@
         <h1 th:if="${thisLinks=='2'}">美财之星总决赛—第二环节·才思敏捷</h1>
         <h1 th:if="${thisLinks=='3'}">美财之星总决赛—第三环节·场景再现</h1>
         <h1 th:if="${thisLinks=='4'}">美财之星总决赛—第四环节·群英舌战</h1>
+        <h1 th:if="${thisLinks=='5'}">美财之星总决赛—第五环节·直抒胸臆</h1>
         <span th:text="'当前'+${userSortnum}+'号选手正在选题！'"></span>
     </div>
 
@@ -58,7 +59,8 @@
 <script src="../static/js/jquery-3.3.1.min.js"></script>
 <script src="../static/layui/layui.all.js"></script>
 <script>
-    var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+    // var webSocketUrl = "ws://10.2.51.69:8088/websocket/[(${session.user.userName})]";
+    var webSocketUrl = "ws://192.168.0.113:8088/websocket/[(${session.user.userName})]";
     var socket = new WebSocket(webSocketUrl);
     ;!function () {
         var layer = layui.layer,
@@ -72,11 +74,19 @@
             if (msg.data !== "连接成功") {
                 // 解析JSON串
                 var data = JSON.parse(msg.data);
-                //接收报文，跳转至第二环节
-                if(data.message.thisLinks=='2'&&data.toUserId=='all'){
+                //接收报文，跳转至第二环节答题界面
+                if (data.message.thisLinks == '2' && data.toUserId == 'all') {
 
                     //接收报文，其他参赛选手进入到当前参赛选手的选题页面
-                    window.location.href = "/answer?thisNumber=" + data.message.thisNumber + "&thisLinks=" + data.message.thisLinks+"&competitionOrder="+data.message.competitionOrder;
+                    window.location.href = "/answer?thisNumber=" + data.message.thisNumber + "&thisLinks=" + data.message.thisLinks + "&competitionOrder=" + data.message.competitionOrder;
+                }
+                if (data.message.thisLinks == '3' && data.toUserId == 'all') {
+                    //接收报文，跳转至第三环节答题界面
+                    window.location.href = "/answer?thisNumber=" + data.message.thisNumber + "&thisLinks=" + data.message.thisLinks + "&competitionOrder=" + data.message.competitionOrder;
+                }
+                if (data.message.thisLinks == '5' && data.toUserId == 'all') {
+                    //接收报文，跳转至第三环节答题界面
+                    window.location.href = "/answer?thisNumber=" + data.message.thisNumber + "&thisLinks=" + data.message.thisLinks + "&competitionOrder=" + data.message.competitionOrder;
                 }
             }
 
@@ -107,9 +117,9 @@
         socket.send('{"toUserId":"all","message":{"thisLinks":"' + thisLinks + '","thisNumber":"' + thisNumber + '","competitionOrder":"[(${session.user.competitionOrder})]"}}');
         //延迟3秒进入连接
 
-        setTimeout(function(){
-            window.location.href = "/answer?thisNumber=" + thisNumber + "&thisLinks=" + thisLinks+"&competitionOrder=[(${session.user.competitionOrder})]";
-        },3000);
+        setTimeout(function () {
+            window.location.href = "/answer?thisNumber=" + thisNumber + "&thisLinks=" + thisLinks + "&competitionOrder=[(${session.user.competitionOrder})]";
+        }, 3000);
 
 
     }
